@@ -5,9 +5,9 @@
                 <v-col cols="12" md="12">
                     <v-card rounded="xl" elevation="12">
                         <v-card-title>
-                            <v-img class="mt-3" src="/img/logo.png" width="15%"></v-img>
+                            <center><v-img class="mt-3" src="/img/logo.png" width="15%"></v-img></center>
                             <h3 class="text-center font-weight-bold">สมัครสมาชิก</h3>
-                            <h3 class="text-center font-weight-bold text-medium-emphasis">NTC Evaluation System</h3>
+                            <h3 class="text-center font-weight-bold text-medium-emphasis text-body-medium">NTC Evaluation System</h3>
                         </v-card-title>
                         <v-card-text>
                             <br>
@@ -41,7 +41,7 @@
                                 <v-row>
                                     <v-col cols="12" md="12">
                                         <center>
-                                            <v-btn class="btn-red-style text-center text-white w-50" append-icon="mdi-arrow-right" type="submit">สมัครสมาชิก</v-btn>
+                                            <v-btn class="red-button text-center text-white w-50 py-8" append-icon="mdi-arrow-right" type="submit" rounded="lg">สมัครสมาชิก</v-btn>
                                         </center>
                                     </v-col>
                                 </v-row>
@@ -93,6 +93,9 @@ function validate(){
     if(!f.username.trim())error.value.username = 'กรุณากรอกชื่อผู้ใช้'
     else if(f.username.trim().length < 4)error.value.username = 'ชื่อผู้ใช้ต้องยาวอย่างน้อย 4 ตัวอักษร'
 
+    if(!f.password.trim())error.value.password = 'กรุณากรอกรหัสผ่าน'
+    else if(f.password.trim().length < 6)error.value.password = 'รหัสผ่านต้องยาวอย่างน้อย 6 ตัวอักษร'
+
     if(!conP.value.trim())error.value.conP = 'กรุณายืนยันรหัสผ่าน'
     else if(conP.value.trim().length !== f.password.trim().length)error.value.conP = 'รหัสผ่านไม่ตรงกัน'
 
@@ -118,5 +121,12 @@ const saveMember = async()=>{
 </script>
 
 <style scoped>
+.bg-style{
+    background: linear-gradient(135deg,white 0%,rgb(255, 239, 239) 25%,rgb(234, 248, 255) 70%);
+}
+
+.red-button{
+    background: linear-gradient(135deg,rgb(255, 56, 56),rgb(255, 76, 115));
+}
 
 </style>
