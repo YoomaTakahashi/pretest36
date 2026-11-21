@@ -15,6 +15,13 @@ app.use('/uploads',express.static(path.join(__dirname,'./uploads')))
 
 app.use((req,res)=> res.status(404).json({message:"Route Not Found"}))
 
+//---------------------------------------------------global api --------------------------------------------------------------------\\
+
+const profile = require('./routes/profile')
+app.use('/app/profile',profile)
+
+
+
 app.listen(3001,()=>{
     console.log("Server Running on Port 3001");
     
