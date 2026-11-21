@@ -41,6 +41,7 @@ router.post('/save',verifyToken,requireRole('ผู้รับการปร�
         await Promise.all(Object.entries(files).map(async([key,file])=>{
             const filename = Date.now()+Math.random().toString(36).slice(2)+path.extname(file.name)
             await file.mv(path.join(uploadDir,filename))
+            fileMap[key] = filename
         }))
         const [[evaRow]] = await db.query(`select * from tb_member m,tb_eva e,tb_system s where e.id_member=? and e.id_member=m.id_member and e.id_sys=s.id_sys order by e.id_eva desc`,[id_member])
         const id_eva = evaRow.id_eva
