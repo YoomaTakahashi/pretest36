@@ -35,7 +35,7 @@
                                         <v-select label="ประเภทสมาชิก" v-model="form.role" :error-messages="error.role" variant="outlined" prepend-inner-icon="mdi-account-group" :items="typeR"></v-select>
                                     </v-col>
                                     <v-col cols="12" md="6">
-                                        <v-file-input label="รูปภาพสมาชิก" v-model="pic_user" :error-messages="error.pic_user" variant="outlined" prepend-icon="" prepend-inner-icon="mdi-file-box" accept=".png , .jpg" hint="รองรับเฉพาะไฟล์ PNG และ JPG เท่านั้น" persistent-hint></v-file-input>
+                                        <v-file-input label="รูปภาพสมาชิก" v-model="pic_user" :error-messages="error.pic_user" variant="outlined" prepend-icon="" prepend-inner-icon="mdi-file" accept=".png , .jpg" hint="รองรับเฉพาะไฟล์ PNG และ JPG เท่านั้น" persistent-hint></v-file-input>
                                     </v-col>
                                 </v-row>
                                 <v-row>

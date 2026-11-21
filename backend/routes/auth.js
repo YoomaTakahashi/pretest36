@@ -45,24 +45,6 @@ router.post('/login',async (req,res) => {
     }
 })
 
-router.post('/login',async (req,res) => {
-    try {
-        const {username,password,role} = req.body
-        const [rows] = await db.query(`select * from tb_member where username=? and role=?`,[username,role])
-        const m = rows[0]
-        if(!m || !password || !(await bc.compare(password,m.password))){
-            return res.status(400).json({message:"รหัสผ่านไม่ถูกต้อง"})
-        }
-        const token = jwt.sign(
-            {id_member:m.id_member,username:m.username,role:m.role},JWT_SECRET,{expiresIn:'24'}
-        )
-        const statusPw = m.role === 'ผู้รับการประเมินผล' && m.statusPw === 'n'
-        res.json({token,role:m.role,statusPw})
-    } catch (error) {
-        console.error("error login",error);
-        res.status(500).json({message:"error login"})
-    }
-})
 
 router.put('/changePw',verifyToken,async (req,res) => {
     try {
