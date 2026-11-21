@@ -5,7 +5,7 @@
             <v-toolbar-title class="font-weight-bold">NTC EVALUATION SYSTEM</v-toolbar-title>
             <v-spacer></v-spacer>
 
-            <p class="text-center">คุณ : {{ user.fname }} {{user.fname}}<br> {{ user.role }}</p>
+            <p class="text-center">คุณ : {{ user.fname }} {{user.lname}}<br> {{ user.role }}</p>
             <v-btn varaint="text" @click="logout" icon="mdi-logout"></v-btn>
         </v-app-bar>    
 

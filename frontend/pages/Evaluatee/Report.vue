@@ -83,7 +83,7 @@ const print = ()=>{
 }
 
 const signUrl = (file:string) =>{
-    new URL(`/uploads/signature/${file}`,api).href
+    return new URL(`/uploads/signature/${encodeURIComponent(file)}`, api).href
 }
 
 const average = (id: number)=>{

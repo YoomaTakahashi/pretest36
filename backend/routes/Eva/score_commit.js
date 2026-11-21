@@ -6,7 +6,9 @@ const router = express.Router()
 router.get('/commit',verifyToken,requireRole('ผู้รับการประเมินผล'),async (req,res) => {
     try {
         const id_member = req.user.id_member
-        const [rows] = await db.query(`select * from tb_member m,tb_eva e,tb_system s,tb_commit c where c.id_member=? and c.id_eva=e.id_eva and e.id_member=m.id_member and e.id_sys=s.id_sys order by e.id_eva desc`,[id_member])
+        const [[evaRow]] = await db.query(`select * from tb_member m,tb_eva e,tb_system s where e.id_member=? and e.id_member=m.id_member and e.id_sys=s.id_sys order by e.id_eva desc`,[id_member])
+        const id_eva = evaRow.id_eva
+        const [rows] = await db.query(`select * from tb_member m,tb_eva e,tb_system s,tb_commit c where e.id_member=? and c.id_eva=? and c.id_eva=e.id_eva and e.id_member=m.id_member and e.id_sys=s.id_sys order by e.id_eva desc`,[id_member,id_eva])
         res.json(rows)
     } catch (error) {
         console.error('Error get',error)
