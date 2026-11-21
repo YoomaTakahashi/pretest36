@@ -4,7 +4,7 @@
             <v-row justify="center" align="center">
                 <v-col cols="12" md="6">
                     <div>
-                        <div>
+                        <div class="text-center text-md-start ">
                             <div class="logo-box md-6 mx-auto mx-md-0">
                                 <div class="logo-ring"></div>
                                 <v-sheet width="150" height="150" rounded="circle" elevation="8" class="logo-float d-flex justify-center align-center">

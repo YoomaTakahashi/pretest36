@@ -1,6 +1,6 @@
-const jwt = reqiure('jsonwebtoken')
+const jwt = require('jsonwebtoken')
 const JWT_SECRET = process.env.JWT_SECRET
-const db = reqiure('../db.js')
+const db = require('../db.js')
 
 exports.verifyToken = (req,res,next)=>{
     const authHeader = req.header("Authorization ")
