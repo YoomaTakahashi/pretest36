@@ -33,34 +33,35 @@ ts<template>
                                     </v-col>
                                 </v-row>
                             </v-form>
-                            <v-card rounded="xl" elevation="5">
-                                <h3 class="font-weight-bold"><v-icon icon="mdi-account-group" class="ms-2"></v-icon>กรรมการประเมิน</h3>
-                                <v-divide></v-divide>
-                                <v-table class="mt-3" hover>
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center">ลำดับ</th>
-                                            <th class="text-center">กรรมการประเมิน</th>
-                                            <th class="text-center">ตำแหน่ง</th>
-                                            <th class="text-center">จัดการ</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="(items,index) in List" :key="items.id_commit">
-                                            <td class="text-center">{{ index+1 }}</td>
-                                            <td class="text-center">{{ nameOf(items.id_member) }}</td>
-                                            <td class="text-center">{{ items.role }}</td>
-                                            <td class="text-center">
-                                                <center>
-                                                    <v-btn rounded="circle" icon="mdi-delete" variant="tonal" color="error" @click="del(items.id_commit)" class="ms-2"></v-btn>
-                                                </center>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </v-table>
-                            </v-card>
+                            
                             
                         </v-card-text>
+                    </v-card>
+                    <v-card rounded="xl" elevation="5" class="mt-4">
+                        <h3 class="font-weight-bold"><v-icon icon="mdi-account-group" class="ms-2"></v-icon>กรรมการประเมิน</h3>
+                        <v-divide></v-divide>
+                        <v-table class="mt-3" hover>
+                            <thead>
+                                <tr>
+                                    <th class="text-center">ลำดับ</th>
+                                    <th class="text-center">กรรมการประเมิน</th>
+                                    <th class="text-center">ตำแหน่ง</th>
+                                    <th class="text-center">จัดการ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(items,index) in List" :key="items.id_commit">
+                                    <td class="text-center">{{ index+1 }}</td>
+                                    <td class="text-center">{{ nameOf(items.id_member) }}</td>
+                                    <td class="text-center">{{ items.role }}</td>
+                                    <td class="text-center">
+                                        <center>
+                                            <v-btn rounded="circle" icon="mdi-delete" variant="tonal" color="error" size="small" @click="del(items.id_commit)" class="ms-2"></v-btn>
+                                        </center>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </v-table>
                     </v-card>
                 </v-col>
             </v-row>

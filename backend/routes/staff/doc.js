@@ -24,11 +24,15 @@ router.post('/save',verifyToken,requireRole('ฝ่ายบุคลากร')
     }
 })
 
-router.delete('/delete/:id_topic',verifyToken,requireRole('ฝ่ายบุคลากร'),async (req,res) => {
+router.delete('/delete/:id_doc',verifyToken,requireRole('ฝ่ายบุคลากร'),async (req,res) => {
     try {
-        const {id_topic} = req.params
-
-        const [rows] = await db.query(`delete from tb_topic where id_topic=?`,[id_topic])
+        const {id_doc} = req.params
+        const [[d]] = await db.query(`select file from tb_doc where id_doc=?`,[id_doc])
+        const fp = path.join(uploadDir,d.file)
+        if(fs.existsSync(fp)){
+            fs.unlinkSync(fp)
+        }
+        const [rows] = await db.query(`delete from tb_doc where id_doc=?`,[id_doc])
         res.json({rows,message:"delete success"})
 
         
@@ -42,7 +46,7 @@ router.delete('/delete/:id_topic',verifyToken,requireRole('ฝ่ายบุค
 router.get('/show',verifyToken,requireRole('ฝ่ายบุคลากร'),async (req,res) => {
     try {
 
-        const [rows] = await db.query(`select * from tb_topic  order by id_topic desc`)
+        const [rows] = await db.query(`select * from tb_doc  order by id_doc desc`)
         res.json(rows)
 
         

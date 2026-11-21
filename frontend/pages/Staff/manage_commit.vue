@@ -3,8 +3,9 @@ ts<template>
         <v-container>
             <v-row justify="center">
                 <v-col cols="12" md="12">
-                    <page-header class="mb-4" title="จัดการกรรมการประเมิน" icon="mdi-account-star" subtitle="เพิ่ม ลบ แก้ไข ข้อมูลของกรรมการประเมิน"></page-header>
+                    <page-header title="จัดการกรรมการประเมิน" icon="mdi-account-star" subtitle="เพิ่ม ลบ แก้ไข ข้อมูลของกรรมการประเมิน"></page-header>
                     <v-card rounded="xl" elevation="12">
+                        
                         <v-card-title>
                             <h3 class="font-weight-bold"><v-icon :icon="form.id_member ? 'mdi-pencil':'mdi-plus'"></v-icon>จัดการกรรมการประเมิน</h3>
                         </v-card-title>
@@ -40,42 +41,42 @@ ts<template>
                                     </v-col>
                                 </v-row>
                             </v-form>
-                            <v-card rounded="xl" elevation="5">
-                                <h3 class="font-weight-bold"><v-icon icon="mdi-account-star">กรรมการประเมิน</v-icon></h3>
-                                <v-text-field label="ค้นหา" v-model="search" prepend-inner-icon="mdi-magnify" variant="outlined" class="ma-3"></v-text-field>
-                                <v-divide></v-divide>
-                                <v-table class="mt-3" hover>
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center">ลำดับ</th>
-                                            <th class="text-center">ชื่อ-สกุล</th>
-                                            <th class="text-center">อีเมล</th>
-                                            <th class="text-center">ชื่อผู้ใช้</th>
-                                            <th class="text-center">จัดการ</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="(items,index) in result" :key="items.id_member">
-                                            <td class="text-center">{{ index+1 }}</td>
-                                            <td class="text-center">{{ items.fname }} {{ items.lname }}</td>
-                                            <td class="text-center">{{ items.email }}</td>
-                                            <td class="text-center">{{ items.username }}</td>
-                                            <td class="text-center">
-                                                <center>
-                                                    <v-btn rounded="circle" icon="mdi-lock-reset" variant="tonal" color="info" @click="rePw(items)" class="ms-2"></v-btn>
-                                                    <v-btn rounded="circle" icon="mdi-pencil" variant="tonal" color="warning" @click="edit(items.id_member)" class="ms-2"></v-btn>
-                                                    <v-btn rounded="circle" icon="mdi-delete" variant="tonal" color="error" @click="del(items.id_member)" class="ms-2"></v-btn>
-                                                </center>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center text-red" v-if="result.length === 0" colspan="12">ไม่พบข้อมูล</td>
-                                        </tr>
-                                    </tbody>
-                                </v-table>
-                            </v-card>
+                            
                             
                         </v-card-text>
+                    </v-card>
+                    <v-card class="mt-4" rounded="xl" elevation="5">
+                        <v-text-field label="ค้นหา" v-model="search" prepend-inner-icon="mdi-magnify" variant="outlined" class="ma-3"></v-text-field>
+                        <v-divide></v-divide>
+                        <v-table class="mt-3" hover>
+                            <thead>
+                                <tr>
+                                    <th class="text-center">ลำดับ</th>
+                                    <th class="text-center">ชื่อ-สกุล</th>
+                                    <th class="text-center">อีเมล</th>
+                                    <th class="text-center">ชื่อผู้ใช้</th>
+                                    <th class="text-center">จัดการ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(items,index) in result" :key="items.id_member">
+                                    <td class="text-center">{{ index+1 }}</td>
+                                    <td class="text-center">{{ items.fname }} {{ items.lname }}</td>
+                                    <td class="text-center">{{ items.email }}</td>
+                                    <td class="text-center">{{ items.username }}</td>
+                                    <td class="text-center">
+                                        <center>
+                                            <v-btn rounded="circle" icon="mdi-lock-reset" variant="tonal" color="info"size="small" @click="rePw(items)" class="ms-2"></v-btn>
+                                            <v-btn rounded="circle" icon="mdi-pencil" variant="tonal" color="warning" size="small" @click="edit(items.id_member)" class="ms-2"></v-btn>
+                                            <v-btn rounded="circle" icon="mdi-delete" variant="tonal" color="error" size="small" @click="del(items.id_member)" class="ms-2"></v-btn>
+                                        </center>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center text-red" v-if="result.length === 0" colspan="12">ไม่พบข้อมูล</td>
+                                </tr>
+                            </tbody>
+                        </v-table>
                     </v-card>
                 </v-col>
             </v-row>
@@ -126,11 +127,11 @@ function validate(){
 
     if(!f.role.trim())error.value.role = 'กรุณาเลือกประเภทสมาชิก'
 
-    if(f.password){
-        if(!f.password.trim())error.value.password = 'กรุณากรอกรหัสผ่าน'
-        else if(f.password.trim().length < 6)error.value.password = 'รหัสผ่านต้องยาวอย่างน้อย 6 ตัวอักษร'
-    }else{
+    if(!f.password){
         return Object.keys(error.value).length === 0
+    }else{
+        if(!f.password)error.value.password = 'กรุณากรอกรหัสผ่าน'
+        else if(f.password.length < 6)error.value.password = 'รหัสผ่านต้องยาวอย่างน้อย 6 ตัวอักษร'
     }
 
     return Object.keys(error.value).length === 0
@@ -165,7 +166,7 @@ const saveMember = async()=>{
 
 const fetch = async()=>{
     try {
-        const res = await axios.get(`${staff}/member/showE`,{headers:{Authorization:`Bearer ${token}`}})
+        const res = await axios.get(`${staff}/member/showC`,{headers:{Authorization:`Bearer ${token}`}})
         dataResult.value = res.data
 
     } catch (error) {

@@ -37,45 +37,46 @@ ts<template>
                                     </v-col>
                                 </v-row>
                             </v-form>
-                            <v-card rounded="xl" elevation="5">
-                                <h3 class="font-weight-bold">ตัวชี้วัด</h3>
-                                <v-text-field label="ค้นหา" v-model="search" prepend-inner-icon="mdi-magnify" variant="outlined" class="ma-3"></v-text-field>
-                                <v-divide></v-divide>
-                                <v-table class="mt-3" hover>
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center">ลำดับ</th>
-                                            <th class="text-center">หัวข้อการประเมิน</th>
-                                            <th class="text-center">ชื่อตัวชี้วัด</th>
-                                            <th class="text-center">รายละเอียดตัวชี้วัด</th>
-                                            <th class="text-center">น้ำหนักคะแนน</th>
-                                            <th class="text-center">ประเภทตัวเลือก</th>
-                                            <th class="text-center">จัดการ</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="(items,index) in result" :key="items.id_indicate">
-                                            <td class="text-center">{{ index+1 }}</td>
-                                            <td class="text-center">{{ items.name_topic }}</td>
-                                            <td class="text-center">{{ items.name_indicate }}</td>
-                                            <td class="text-center">{{ items.detail_indicate || '-' }}</td>
-                                            <td class="text-center">{{ items.point_indicate }}</td>
-                                            <td class="text-center">{{ items.check_indicate === 'y' ? 'มี (ตัวเลือกแบบ select)':'ไม่มี (ผู้ใช้ทำการกรอกข้อมูลเอง)' }}</td>
-                                            <td class="text-center">
-                                                <center>
-                                                    <v-btn rounded="circle" icon="mdi-pencil" variant="tonal" color="warning" @click="edit(items)" class="ms-2"></v-btn>
-                                                    <v-btn rounded="circle" icon="mdi-delete" variant="tonal" color="error" @click="del(items.id_indicate)" class="ms-2"></v-btn>
-                                                </center>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center text-red" v-if="result.length === 0" colspan="12">ไม่พบข้อมูล</td>
-                                        </tr>
-                                    </tbody>
-                                </v-table>
-                            </v-card>
+                            
                             
                         </v-card-text>
+                    </v-card>
+                    <v-card rounded="xl" elevation="5" class="mt-4">
+                        <h3 class="font-weight-bold"><v-icon icon="mdi-chart-box-outline" class="ms-2"></v-icon> ตัวชี้วัด</h3>
+                        <v-text-field label="ค้นหา" v-model="search" prepend-inner-icon="mdi-magnify" variant="outlined" class="ma-3"></v-text-field>
+                        <v-divide></v-divide>
+                        <v-table class="mt-3" hover>
+                            <thead>
+                                <tr>
+                                    <th class="text-center">ลำดับ</th>
+                                    <th class="text-center">หัวข้อการประเมิน</th>
+                                    <th class="text-center">ชื่อตัวชี้วัด</th>
+                                    <th class="text-center">รายละเอียดตัวชี้วัด</th>
+                                    <th class="text-center">น้ำหนักคะแนน</th>
+                                    <th class="text-center">ประเภทตัวเลือก</th>
+                                    <th class="text-center">จัดการ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(items,index) in result" :key="items.id_indicate">
+                                    <td class="text-center">{{ index+1 }}</td>
+                                    <td class="text-center">{{ items.name_topic }}</td>
+                                    <td class="text-center">{{ items.name_indicate }}</td>
+                                    <td class="text-center">{{ items.detail_indicate || '-' }}</td>
+                                    <td class="text-center">{{ items.point_indicate }}</td>
+                                    <td class="text-center">{{ items.check_indicate === 'y' ? 'มี (ตัวเลือกแบบ select)':'ไม่มี (ผู้ใช้ทำการกรอกข้อมูลเอง)' }}</td>
+                                    <td class="text-center">
+                                        <center>
+                                            <v-btn rounded="circle" icon="mdi-pencil" variant="tonal" color="warning" size="small" @click="edit(items)" class="ms-2"></v-btn>
+                                            <v-btn rounded="circle" icon="mdi-delete" variant="tonal" color="error" size="small" @click="del(items.id_indicate)" class="ms-2"></v-btn>
+                                        </center>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center text-red" v-if="result.length === 0" colspan="12">ไม่พบข้อมูล</td>
+                                </tr>
+                            </tbody>
+                        </v-table>
                     </v-card>
                 </v-col>
             </v-row>
