@@ -37,7 +37,7 @@
                     <v-card rounded="xl" elevation="12" class="pa-4">
                             <v-chip variant="tonal" color="info" size="small" prepend-icon="mdi-clock-outline" class="mb-4">{{ greeting }}</v-chip>
                             <div class="d-flex align-center mb-1">
-                                <v-img class="me-3" src="/img/logo.png" max-width="36" height="36"></v-img>
+                                <v-img class="me-3" src="/img/logo.png" max-width="50" height="50"></v-img>
                                 <h3 class="text-headline-large font-weight-bold">เข้าสู่ระบบ</h3>
                             </div>
                             <div class="text-body-medium text-medium-emphasis mb-6">กรุณาลงชื่อเข้าใช้เพื่อเข้าสู่ระบบ</div>
@@ -147,7 +147,7 @@ const login = async()=>{
         alert("ดำเนินการสำเร็จ")
         if(res.data.statusPw)return navigateTo('/Evaluatee/changePw')
 
-        const useRole = res.data.token
+        const useRole = res.data.role
         if(useRole === 'ฝ่ายบุคลากร')useRouter().push('/Staff')
         if(useRole === 'ผู้รับการประเมินผล')useRouter().push('/Evaluatee')
         if(useRole === 'กรรมการประเมิน')useRouter().push('/Committee')
