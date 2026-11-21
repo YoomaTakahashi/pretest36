@@ -1,13 +1,13 @@
 <template>
     <v-container>
-        <PageHeader title="แบบประเมินตนเอง" subtitle="ใส่คะแนนประเมิน 1-4 และ สามารถแนบไฟล์ PNG PDF และ JPG" icon="mdi-clipboard-edit"></PageHeader>
+        <PageHeader title="แบบประเมินตนเอง" subtitle="ใส่คะแนนประเมิน 1-4 และ สามารถแนบไฟล์ PNG PDF และ JPG" icon="mdi-clipboard-edit" color="#7d0c14"></PageHeader>
 
         <v-form v-if="user.status_eva === 1" @submit.prevent="saveScore">
             <v-card rounded="xl" class="mb-6" elevation="4">
                 <v-list-item prepend-icon="mdi-account-circle" :title="`${user.fname}-${user.lname}`" :subtitle="`รอบการประเมิน : ${user.round_sys} /ปี ${user.year_sys}`" ></v-list-item>
             </v-card>
 
-            <v-card v-for="(topic,t) in topics" :key="topic.id_topic">
+            <v-card rounded="xl" class="mb-4" v-for="(topic,t) in topics" :key="topic.id_topic">
                 <v-card-title class="pa-4 bg-grey">{{ Number(t)+1 }}.{{ topic.name_topic }}</v-card-title>
                 <v-card-text v-for="(indicate,i) in topic.indicates" :key="indicate.id_indicate">
                     <div class="text-title-medium font-weigth-bold">{{ Number(t)+1 }}.{{ Number(i)+1 }} : {{ indicate.name_indicate }}</div>
@@ -26,7 +26,7 @@
                             <v-file-input label="*** รองรับเฉพาะ .PNG .PDF และ .JPG" v-model="indicate.file_eva" variant="outlined" @change="onFilechange($event,topic.id_topic,indicate.id_indicate)" accept=".png,jpg.,pdf" prepend-icon="mdi-paperclip"></v-file-input>
                         </v-col>
                     </v-row>
-                    <v-divider v-if="Number(i) < topic.indicate.length - 1"></v-divider>
+                    <v-divider v-if="Number(i) < topic.indicates.length - 1"></v-divider>
                 </v-card-text>
             </v-card>
             <div class="text-center">
@@ -59,7 +59,6 @@ const fetch = async()=>{
 onMounted(fetch)
 
 const fileMap = ref<Record<string,string>>({})
-
 const onFilechange = (event:Event,id_topic:number,id_indicate:number)=>{
     const file = (event.target as HTMLInputElement)?.files?.[0]
     if(!file)return
@@ -75,9 +74,26 @@ const saveScore = async()=>{
             const file = fileMap.value[key]
             if(file)formData.append(`file_${key}`,file)
             return{
-                
+                id_topic:t.id_topic,
+                id_indicate:i.id_indicate,
+                score:i.score,
+                detail_eva:i.detail_eva,
+                file_key:file ? `file_${key}` :null
             }
         }))
+        if(allScore.some((s:any)=> !s.score)){
+            alert('กรุณากรอกคะแนนให้สมบูรณ์')
+            return
+        }
+        formData.append('scores',JSON.stringify(allScore))
+        try {
+            await axios.post(`${eva}/selfeva/save`,formData,{headers:{Authorization:`Bearer ${token}`}})
+            alert('ประเมินสำเร็จ')
+            fetch()
+        } catch (error) {
+            console.error('Error post',error)
+        }
+
 }
 
 

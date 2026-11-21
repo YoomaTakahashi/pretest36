@@ -3,16 +3,16 @@ const JWT_SECRET = process.env.JWT_SECRET
 const db = require('../db.js')
 
 exports.verifyToken = (req,res,next)=>{
-    const authHeader = req.header("Authorization ")
+    const authHeader = req.header("Authorization")
     if(!authHeader){
-        return res.status(401).json({message:'Error Get AuthHeader'})
+        return res.status(401).json({message:'Authorization header is required'})
     }
     if(!authHeader || !authHeader.startsWith("Bearer ")){
-        return res.status(401).json({message:'กรุณา login ใหม่เพื่อรับ Token'})
+        return res.status(401).json({message:'Invalid Token no or more กรุณาเข้าสู่ระบบก่อน'})
     }
     const token = authHeader.split(" ")[1]
     if(!token){
-        return res.status(401).json({message:'Token is Not valid'})
+        return res.status(401).json({message:'ไม่พบToken'})
     }
     try {
         const decoded = jwt.verify(token,JWT_SECRET)
@@ -20,7 +20,7 @@ exports.verifyToken = (req,res,next)=>{
         next()
     } catch (error) {
         console.error('Invalid No or Token',error)
-        res.status(403).json({message:'Invalid No or Token'})
+        res.status(403).json({message:'session หมดอายุหรือ token ไม่ถูกต้อง'})
     }
 }
 
