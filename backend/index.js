@@ -20,6 +20,9 @@ app.use((req,res)=> res.status(404).json({message:"Route Not Found"}))
 const profile = require('./routes/profile')
 app.use('/app/profile',profile)
 
+const auth = require('./routes/auth')
+app.use('/app/auth',auth)
+
 
 
 app.listen(3001,()=>{
