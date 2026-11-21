@@ -26,11 +26,11 @@ ts<template>
                                     <td class="text-center">{{ formatDate(items.day_eva) }}</td>
                                     <td class="text-center">รอบที่ : {{ items.round_sys }} /ปี : {{ items.year_sys }}</td>
                                     <td class="text-center">
-                                        <v-btn rounded="circle" icon="mdi-eye" size="small" variant="tonal" color="info" @click="view(items.file)"></v-btn>
+                                        <v-chip :color="bg(items.status_eva)" :prepend-icon="icon(items.status_eva)" variant="tonal" size="small">{{ items.status_eva === 1 ? 'รอการประเมินตนเอง':items.status_eva === 2 ? 'รอกรรมการประเมิน':'ประเมินสำเร็จ' }}</v-chip>
                                     </td>
                                     <td class="text-center">
                                         <center>
-                                            <v-btn rounded="circle" icon="mdi-delete" variant="tonal" color="error" size="small" @click="del(items.id_doc)" class="ms-2"></v-btn>
+                                            <v-btn color="info" class="text-center text-white" variant="outlined" size="small" prepend-icon="mdi-pen" @click="go(items.id_eva)" rounded="lg">ดำเนินการประเมิน</v-btn>
                                         </center>
                                     </td>
                                 </tr>
@@ -49,52 +49,40 @@ ts<template>
 <script setup lang="ts">
 import axios from 'axios'
 import { compile } from 'vue'
-import { api, staff } from '~/API/base'
+import { api, commit, staff } from '~/API/base'
 import PageHeader from '~/components/PageHeader.vue'
 const error = ref<Record<string,string>>({})
 const file = ref<File | null>(null)
 const dataResult = ref([])
 const name_doc = ref('')
 
+const bg = (status:any)=>{
+    if(status === 1)return "error"
+    if(status === 2)return "warning"
+    if(status === 3)return "success"
+}
+
+const icon = (status:any)=>{
+    if(status === 1)return "mdi-close"
+    if(status === 2)return "mdi-clock"
+    if(status === 3)return "mdi-checl-circle"
+}
+
+
 const reset = ()=>{
     name_doc.value = ''
     file.value = null
 }
-function validate(){
-    error.value = {}
-    if(!name_doc.value.trim())error.value.name_doc = 'กรุณากรอกชื่อเอกสาร'
-    if(!file.value)error.value.file = 'กรุณาเลือกไฟล์เอกสาร'
 
-
-    return Object.keys(error.value).length === 0
-
-}
 
 const token = import.meta.client ? localStorage.getItem('token'):null
 
-const saveMember = async()=>{
-    if(!validate())return 
-    const maxSize = 10*1024*1024
-    if(file.value?.size > maxSize){
-        alert('ไฟล์มีขนาดเกิน 10MB')
-    }
-    const formdata = new FormData
-    formdata.append('name_doc',name_doc.value)
-    formdata.append('file',file.value!)
-    try {
-        await axios.post(`${staff}/doc/save`,formdata,{headers:{Authorization:`Bearer ${token}`}})
-        await fetch()
-        await reset()
-        alert("ดำเนินการสำเร็จ")
-    } catch (error) {
-        console.error("error save",error)
-    }
-}
+
 
 const fetch = async()=>{
     try {
-        const res = await axios.get(`${staff}/doc/show`,{headers:{Authorization:`Bearer ${token}`}})
-        dataResult.value = res.data
+        const res = await axios.get(`${commit}/show`,{headers:{Authorization:`Bearer ${token}`}})
+        result.value = res.data
 
     } catch (error) {
         console.error("Error get",error);
@@ -103,38 +91,19 @@ const fetch = async()=>{
 }
 
 
-const del = async(id_doc:number)=>{
-    if(!confirm('ต้องการลบข้อมูลชุดนี้ใช่หรือไม่'))return
-    try {
-        await axios.delete(`${staff}/doc/delete/${id_doc}`,{headers:{Authorization:`Bearer ${token}`}})
-        await fetch()
-        await reset()
-    } catch (error) {
-        console.error("error delete",error);
-        
-    }
-}
 
-const search = ref('')
-const result = computed(()=>{
-    if(!search.value)return dataResult.value
-    const s = search.value.toLowerCase()
-    return dataResult.value.filter((items:any)=>{
-        return(
-            items.name_doc.toLowerCase().includes(s)
-        )
-    })
-})
+
+const result = ref([])
 
 const formatDate = (dateStr:string)=>{
     const day = new Date(dateStr)
     return day.toLocaleDateString('th-TH')
 }
 
-const view = (filename:string)=>{
-    const url = new URL(`/uploads/document/${filename}`,api).href
-    window.open(url,'_blank')
+const go = (id_eva:number)=>{
+    navigateTo({path:`/Committee/Save_score/${id_eva}`})
 }
+
 
 onMounted(fetch)
 </script>
