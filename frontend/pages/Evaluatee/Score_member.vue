@@ -43,7 +43,7 @@
                 <v-alert color="green" rounded="xl" size="large" prepend-icon="mdi-content-save"><v-icon icon="mdi-trophy"></v-icon>คะแนนรวม : {{ user.total_eva }} คะแนน</v-alert>
             </div>
         </v-form>
-        <v-alert color="success" type="success" v-else-if="user.status_eva === 2 ||user.status_eva === 3" rounded="xl" variant="tonal">ประเมินตนเองสำเร็จ</v-alert>
+        <v-alert color="warning" type="warning" v-else-if="user.status_eva === 1" rounded="xl" variant="tonal">ยังไม่ได้ประเมินตนเอง</v-alert>
         <v-alert type="error" v-else rounded="xl" variant="tonal">ไม่มีแบบประเมิน</v-alert>
     </v-container>
 </template>

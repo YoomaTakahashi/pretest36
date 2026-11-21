@@ -61,7 +61,7 @@ ts<template>
                                     <td class="text-center">
                                         <center>
                                             <v-btn rounded="circle" icon="mdi-pencil" variant="tonal" color="warning" size="small" @click="edit(items)" class="ms-2"></v-btn>
-                                            <v-btn rounded="circle" icon="mdi-delete" variant="tonal" color="error" size="small" @click="del(items.id_sys)" class="ms-2"></v-btn>
+                                            <v-btn rounded="circle" icon="mdi-delete" variant="tonal" color="error" size="small" @click="del(items.id_eva)" class="ms-2"></v-btn>
                                         </center>
                                     </td>
                                 </tr>
