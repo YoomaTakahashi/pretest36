@@ -16,7 +16,7 @@ ts<template>
                                     <th class="text-center">รอบการประเมิน</th>
                                     <th class="text-center">วันที่ออกแบบประเมิน</th>
                                     <th class="text-center">สถานะการประเมิน</th>
-                                    <th class="text-center">รายละเอียด</th>
+                                    <!-- <th class="text-center">รายละเอียด</th> -->
                                 </tr>
                             </thead>
                             <tbody>
@@ -25,13 +25,13 @@ ts<template>
                                     <td class="text-center">{{ formatDate(items.day_eva) }}</td>
                                     <td class="text-center"> รอบการประเมินที่:{{ items.round_sys}} ปี:{{ items.year_sys }}</td>
                                     <td class="text-center">
-                                        <v-chip :color="bg(items)" variant="flat" size="small">{{ (items.total_commit/100).toFixed(2) || 0 }}</v-chip>
+                                        <v-chip :color="bg(items.status_eva)" :prepend-icon="icon(items.status_eva)" variant="tonal" size="small">{{ items.status_eva === 1 ? 'รอการประเมินตนเอง':items.status_eva === 2 ? 'รอกรรมการประเมิน':'ประเมินสำเร็จ' }}</v-chip>
                                     </td>
-                                    <td class="text-center">
+                                    <!-- <td class="text-center">
                                         <center>
                                             <v-btn rounded="circle" icon="mdi-magnify" variant="tonal" color="info" size="small" @click="go(items.id_eva)" class="ms-2"></v-btn>
                                         </center>
-                                    </td>
+                                    </td> -->
                                 </tr>
                                 <tr>
                                     <td class="text-center text-red" v-if="result.length === 0" colspan="12">ไม่พบข้อมูล</td>
@@ -152,6 +152,18 @@ const formatDate = (dateStr:string)=>{
 
 const go = (id_eva)=>{
     navigateTo({path:`/Staff/score_commit-${id_eva}`})
+}
+
+const bg = (status)=>{
+    if(status === 1)return "error"
+    if(status === 2)return "warning"
+    if(status === 3)return "success"
+}
+
+const icon = (status)=>{
+    if(status === 1)return "mdi-close"
+    if(status === 2)return "mdi-clock"
+    if(status === 3)return "mdi-checl-circle"
 }
 
 
