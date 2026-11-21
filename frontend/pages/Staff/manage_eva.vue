@@ -66,9 +66,9 @@ ts<template>
                                     <td class="text-center">{{ items.username }}</td>
                                     <td class="text-center">
                                         <center>
-                                            <v-btn rounded="circle" icon="mdi-lock-reset" variant="tonal" color="info" @click="rePw(items)" class="ms-2"></v-btn>
-                                            <v-btn rounded="circle" icon="mdi-pencil" variant="tonal" color="warning" @click="edit(items.id_member)" class="ms-2"></v-btn>
-                                            <v-btn rounded="circle" icon="mdi-delete" variant="tonal" color="error" @click="del(items.id_member)" class="ms-2"></v-btn>
+                                            <v-btn rounded="circle" icon="mdi-lock-reset" variant="tonal" color="info"size="small" @click="rePw(items)" class="ms-2"></v-btn>
+                                            <v-btn rounded="circle" icon="mdi-pencil" variant="tonal" color="warning" size="small" @click="edit(items.id_member)" class="ms-2"></v-btn>
+                                            <v-btn rounded="circle" icon="mdi-delete" variant="tonal" color="error" size="small" @click="del(items.id_member)" class="ms-2"></v-btn>
                                         </center>
                                     </td>
                                 </tr>
@@ -128,10 +128,10 @@ function validate(){
     if(!f.role.trim())error.value.role = 'กรุณาเลือกประเภทสมาชิก'
 
     if(!f.password){
-        if(!f.password.trim())error.value.password = 'กรุณากรอกรหัสผ่าน'
-        else if(f.password.trim().length < 6)error.value.password = 'รหัสผ่านต้องยาวอย่างน้อย 6 ตัวอักษร'
-    }else{
         return Object.keys(error.value).length === 0
+    }else{
+        if(!f.password)error.value.password = 'กรุณากรอกรหัสผ่าน'
+        else if(f.password.length < 6)error.value.password = 'รหัสผ่านต้องยาวอย่างน้อย 6 ตัวอักษร'
     }
 
     return Object.keys(error.value).length === 0

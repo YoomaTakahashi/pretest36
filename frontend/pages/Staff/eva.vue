@@ -3,7 +3,7 @@ ts<template>
         <v-container>
             <v-row justify="center">
                 <v-col cols="12" md="12">
-                    <page-header class="mb-4" title="จัดการแบบประเมิน" icon="mdi-file-document-edit" subtitle="เลือกผู้รับการประเมินและรอบการประเมิน"></page-header>
+                    <page-header  title="จัดการแบบประเมิน" icon="mdi-file-document-edit" subtitle="เลือกผู้รับการประเมินและรอบการประเมิน"></page-header>
                     <v-card rounded="xl" elevation="12">
                         <v-card-title>
                             <h3 class="font-weight-bold"><v-icon :icon="form.id_eva ? 'mdi-pencil':'mdi-plus'"></v-icon>จัดการแบบประเมิน</h3>
@@ -18,7 +18,7 @@ ts<template>
                                     <v-col cols="12" md="6">
                                         <v-select label="รอบการประเมิน" v-model="form.id_sys" :error-messages="error.id_sys" variant="outlined" :items="round.map((t)=>({title:`รอบการประเมินที่:${t.round_sys} ปี:${t.year_sys}`,value:t.id_sys}))"></v-select>
                                     </v-col>
-                                    <v-col cols="12" md="6">
+                                    <v-col cols="12" md="12">
                                         <v-text-field label="วันที่ออกแบบประเมิน" v-model="form.day_eva" :error-messages="error.day_eva" type="date" variant="outlined"></v-text-field>
                                     </v-col>
                                 </v-row>
@@ -31,44 +31,45 @@ ts<template>
                                     </v-col>
                                 </v-row>
                             </v-form>
-                            <v-card rounded="xl" elevation="5">
-                                <h3 class="font-weight-bold">แบบประเมิน</h3>
-                                <v-text-field label="ค้นหา" v-model="search" prepend-inner-icon="mdi-magnify" variant="outlined" class="ma-3"></v-text-field>
-                                <v-divide></v-divide>
-                                <v-table class="mt-3" hover>
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center">ลำดับ</th>
-                                            <th class="text-center">ผู้รับการประเมินผล</th>
-                                            <th class="text-center">รอบการประเมิน</th>
-                                            <th class="text-center">วันที่ออกแบบประเมิน</th>
-                                            <th class="text-center">เพิ่มกรรมการ</th>
-                                            <th class="text-center">จัดการ</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="(items,index) in result" :key="items.id_eva">
-                                            <td class="text-center">{{ index+1 }}</td>
-                                            <td class="text-center">{{ formatDate(items.day_eva) }}</td>
-                                            <td class="text-center"> รอบการประเมินที่:{{ items.round_sys}} ปี:{{ items.year_sys }}</td>
-                                            <td class="text-center">
-                                                <v-btn rounded="circle" icon="mdi-account-plus" variant="tonal" color="success" @click="go(items.id_eva)"></v-btn>
-                                            </td>
-                                            <td class="text-center">
-                                                <center>
-                                                    <v-btn rounded="circle" icon="mdi-pencil" variant="tonal" color="warning" @click="edit(items)" class="ms-2"></v-btn>
-                                                    <v-btn rounded="circle" icon="mdi-delete" variant="tonal" color="error" @click="del(items.id_sys)" class="ms-2"></v-btn>
-                                                </center>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center text-red" v-if="result.length === 0" colspan="12">ไม่พบข้อมูล</td>
-                                        </tr>
-                                    </tbody>
-                                </v-table>
-                            </v-card>
+                            
                             
                         </v-card-text>
+                    </v-card>
+                    <v-card rounded="xl" elevation="5" class="mt-4">
+                        <h3 class="font-weight-bold"><v-icon icon="mdi-file-document-edit" class="ms-2"></v-icon>แบบประเมิน</h3>
+                        <v-text-field label="ค้นหา" v-model="search" prepend-inner-icon="mdi-magnify" variant="outlined" class="ma-3"></v-text-field>
+                        <v-divide></v-divide>
+                        <v-table class="mt-3" hover>
+                            <thead>
+                                <tr>
+                                    <th class="text-center">ลำดับ</th>
+                                    <th class="text-center">ผู้รับการประเมินผล</th>
+                                    <th class="text-center">รอบการประเมิน</th>
+                                    <th class="text-center">วันที่ออกแบบประเมิน</th>
+                                    <th class="text-center">เพิ่มกรรมการ</th>
+                                    <th class="text-center">จัดการ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(items,index) in result" :key="items.id_eva">
+                                    <td class="text-center">{{ index+1 }}</td>
+                                    <td class="text-center">{{ formatDate(items.day_eva) }}</td>
+                                    <td class="text-center"> รอบการประเมินที่:{{ items.round_sys}} ปี:{{ items.year_sys }}</td>
+                                    <td class="text-center">
+                                        <v-btn rounded="circle" icon="mdi-account-plus" variant="tonal" color="success" @click="go(items.id_eva)"></v-btn>
+                                    </td>
+                                    <td class="text-center">
+                                        <center>
+                                            <v-btn rounded="circle" icon="mdi-pencil" variant="tonal" color="warning" size="small" @click="edit(items)" class="ms-2"></v-btn>
+                                            <v-btn rounded="circle" icon="mdi-delete" variant="tonal" color="error" size="small" @click="del(items.id_eva)" class="ms-2"></v-btn>
+                                        </center>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center text-red" v-if="result.length === 0" colspan="12">ไม่พบข้อมูล</td>
+                                </tr>
+                            </tbody>
+                        </v-table>
                     </v-card>
                 </v-col>
             </v-row>

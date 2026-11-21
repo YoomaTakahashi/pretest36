@@ -29,6 +29,9 @@ app.use('/api/dash',dash)
 
 const member = require('./routes/Staff/member')
 app.use('/api/Staff/member',member)
+
+const doc = require('./routes/Staff/doc')
+app.use('/api/Staff/doc',doc)
 //---------------------------------------------------eva api --------------------------------------------------------------------\\
 
 const selfeva = require('./routes/Eva/selfeva')
