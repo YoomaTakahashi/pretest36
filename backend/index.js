@@ -24,6 +24,9 @@ app.use('/api/auth',auth)
 const dash = require('./routes/dash')
 app.use('/api/dash',dash)
 
+const docnoe = require('./routes/docnoe')
+app.use('/api/docnoe',docnoe)
+
 
 //---------------------------------------------------staff api --------------------------------------------------------------------\\
 
@@ -52,6 +55,10 @@ app.use('/api/Eva/table',table)
 
 
 //---------------------------------------------------commit api --------------------------------------------------------------------\\
+
+
+
+
 //---------------------------------------------------endline api --------------------------------------------------------------------\\
 app.use((req,res)=> res.status(404).json({message:"Route Not Found"}))
 app.listen(3001,()=>{
