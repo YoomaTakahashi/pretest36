@@ -3,7 +3,7 @@ services:
     build: ./frontend
     depends_on:
       - backend
-    container_name: Frontend_container
+    container_name: Frontend_Container
     ports: ["3000:3000"]
     command: npm run dev -- --host 0.0.0.0
     restart: always
