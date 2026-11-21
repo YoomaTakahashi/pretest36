@@ -25,7 +25,7 @@ ts<template>
                                     <v-col cols="12" md="6">
                                         <v-text-field label="ปีการประเมิน" v-model="form.year_sys" :error-messages="error.year_sys" type="number" variant="outlined"></v-text-field>
                                     </v-col>
-                                    <v-col cols="12" md="6">
+                                    <v-col cols="12" md="12">
                                         <v-select label="สถานะรอบการประเมิน" v-model="form.status_sys" :error-messages="error.status_sys" variant="outlined" :items="[{title:'เปิดรอบการประเมิน',value:'y'},{title:'ปิดรอบการประเมิน',value:'n'}]"></v-select>
                                     </v-col>
                                 </v-row>
@@ -74,7 +74,7 @@ ts<template>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="text-center text-red" v-if="result.length === 0" colspan="12">ไม่พบข้อมูล</td>
+                                    <td class="text-center text-body-medium text-medium-emphasis" v-if="result.length === 0" colspan="12">ไม่พบข้อมูล</td>
                                 </tr>
                             </tbody>
                         </v-table>

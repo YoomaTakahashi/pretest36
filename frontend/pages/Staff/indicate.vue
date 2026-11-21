@@ -6,7 +6,7 @@ ts<template>
                     <page-header class="mb-4" title="จัดการตัวชี้วัด" icon="mdi-chart-box-outline" subtitle="เลือกหัวข้อการประเมิน กรอกข้อมูล และ เลือกประเภทตัวเลือก"></page-header>
                     <v-card rounded="xl" elevation="12">
                         <v-card-title>
-                            <h3 class="font-weight-bold"><v-icon :icon="form.id_indicate ? 'mdi-pencil':'mdi-plus'"></v-icon>จัดการหัวข้อการประเมิน</h3>
+                            <h3 class="font-weight-bold"><v-icon :icon="form.id_indicate ? 'mdi-pencil':'mdi-plus'"></v-icon>จัดการตัวชี้วัด</h3>
                         </v-card-title>
                         <v-card-text>
                             <br>
@@ -73,7 +73,7 @@ ts<template>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="text-center text-red" v-if="result.length === 0" colspan="12">ไม่พบข้อมูล</td>
+                                    <td class="text-center text-body-medium text-medium-emphasis" v-if="result.length === 0" colspan="12">ไม่พบข้อมูล</td>
                                 </tr>
                             </tbody>
                         </v-table>

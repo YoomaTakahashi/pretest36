@@ -62,7 +62,7 @@ ts<template>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="text-center text-red" v-if="result.length === 0" colspan="12">ไม่พบข้อมูล</td>
+                                    <td class="text-center text-body-medium text-medium-emphasis" v-if="result.length === 0" colspan="12">ไม่พบข้อมูล</td>
                                 </tr>
                             </tbody>
                         </v-table>

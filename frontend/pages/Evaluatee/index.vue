@@ -39,7 +39,7 @@
                         <td class="text-center">{{ item.round_sys }}</td>
                         <td class="text-center">{{ item.year_sys }}</td>
                         <td class="text-center">
-                            <v-chip :color="status[item.status_eva]?.color" variant="flat" size="small">{{ status[item.status_eva]?.text }}</v-chip>
+                            <v-chip :color="status[item.status_eva]?.color" variant="tonal" size="small" :prepend-icon="status[item.status_eva]?.icon">{{ status[item.status_eva]?.text }}</v-chip>
                         </td>
                     </tr>
                     <tr v-if="users.length === 0">
@@ -65,9 +65,9 @@ const cards = [
 ]
 
 const status: any = {
-    1: {text:'รอการประเมินตนเอง',color:'error'},
-    2: {text:'รอกรรมการประเมิน',color:'warning'},
-    3: {text:'ประเมินสำเร็จ',color:'success'},
+    1: {text:'รอการประเมินตนเอง',color:'error',icon:'mdi-close'},
+    2: {text:'รอกรรมการประเมิน',color:'warning',icon:'mdi-clock'},
+    3: {text:'ประเมินสำเร็จ',color:'success',icon:'mdi-check-circle'},
 }
 
 const fetch = async()=>{

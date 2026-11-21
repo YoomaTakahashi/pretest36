@@ -5,7 +5,7 @@ ts<template>
                 <v-col cols="12" md="12">
                     <page-header  title="สถานะการประเมินของผู้รับการประเมิน" icon="mdi-progress-check" subtitle="ตรวจสอบสถานะการประเมินของผู้รับการประเมิน"></page-header>
                     <v-card rounded="xl" elevation="5" class="mt-4">
-                        <h3 class="font-weight-bold"><v-icon icon="mdi-file-clipboard-account" class="ms-2"></v-icon>สถานะการประเมินของผู้รับการประเมิน</h3>
+                        <h3 class="font-weight-bold"><v-icon icon="mdi-progress-check" class="ms-2"></v-icon>สถานะการประเมินของผู้รับการประเมิน</h3>
                         <v-text-field label="ค้นหา" v-model="search" prepend-inner-icon="mdi-magnify" variant="outlined" class="ma-3"></v-text-field>
                         <v-divide></v-divide>
                         <v-table class="mt-3" hover>
@@ -22,8 +22,9 @@ ts<template>
                             <tbody>
                                 <tr v-for="(items,index) in result" :key="items.id_eva">
                                     <td class="text-center">{{ index+1 }}</td>
-                                    <td class="text-center">{{ formatDate(items.day_eva) }}</td>
+                                    <td class="text-center">{{ items.fname }} {{ items.lname }}</td>
                                     <td class="text-center"> รอบการประเมินที่:{{ items.round_sys}} ปี:{{ items.year_sys }}</td>
+                                    <td class="text-center">{{ formatDate(items.day_eva) }}</td>
                                     <td class="text-center">
                                         <v-chip :color="bg(items.status_eva)" :prepend-icon="icon(items.status_eva)" variant="tonal" size="small">{{ items.status_eva === 1 ? 'รอการประเมินตนเอง':items.status_eva === 2 ? 'รอกรรมการประเมิน':'ประเมินสำเร็จ' }}</v-chip>
                                     </td>
@@ -34,7 +35,7 @@ ts<template>
                                     </td> -->
                                 </tr>
                                 <tr>
-                                    <td class="text-center text-red" v-if="result.length === 0" colspan="12">ไม่พบข้อมูล</td>
+                                    <td class="text-center text-body-medium text-medium-emphasis" v-if="result.length === 0" colspan="12">ไม่พบข้อมูล</td>
                                 </tr>
                             </tbody>
                         </v-table>
@@ -163,7 +164,7 @@ const bg = (status)=>{
 const icon = (status)=>{
     if(status === 1)return "mdi-close"
     if(status === 2)return "mdi-clock"
-    if(status === 3)return "mdi-checl-circle"
+    if(status === 3)return "mdi-check-circle"
 }
 
 

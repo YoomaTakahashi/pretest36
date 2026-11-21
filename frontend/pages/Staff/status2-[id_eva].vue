@@ -10,7 +10,7 @@ ts<template>
                         </v-list>
                     </v-card>
                     <v-card rounded="xl" elevation="5" class="mt-4">
-                        <h3 class="font-weight-bold"><v-icon icon="mdi-file-clipboard-account" class="ms-2"></v-icon>สถานะการประเมินของกรรมการประเมิน</h3>
+                        <h3 class="font-weight-bold"><v-icon icon="mdi-progress-check" class="ms-2"></v-icon>สถานะการประเมินของกรรมการประเมิน</h3>
                         <!-- <v-text-field label="ค้นหา" v-model="search" prepend-inner-icon="mdi-magnify" variant="outlined" class="ma-3"></v-text-field> -->
                         <v-divide></v-divide>
                         <v-table class="mt-3" hover>
@@ -32,7 +32,7 @@ ts<template>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="text-center text-red" v-if="result.length === 0" colspan="12">ไม่พบข้อมูล</td>
+                                    <td class="text-center text-body-medium text-medium-emphasis" v-if="result.length === 0" colspan="12">ไม่พบข้อมูล</td>
                                 </tr>
                             </tbody>
                         </v-table>
@@ -148,7 +148,7 @@ const bg = (status)=>{
 
 const icon = (status)=>{
     if(status === 'n')return "mdi-close"
-    if(status === 'y')return "mdi-checl-circle"
+    if(status === 'y')return "mdi-check-circle"
 }
 
 

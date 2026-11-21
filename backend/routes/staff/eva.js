@@ -47,7 +47,7 @@ router.delete('/delete/:id_eva',verifyToken,requireRole('ฝ่ายบุค�
 router.get('/show',verifyToken,requireRole('ฝ่ายบุคลากร'),async (req,res) => {
     try {
 
-        const [rows] = await db.query(`select * from tb_eva e,tb_system s,tb_member m where e.id_sys = s.id_sys and e.id_member = m.id_member order by id_eva desc`)
+        const [rows] = await db.query(`select * from tb_eva e,tb_member m,tb_system s where e.id_sys = s.id_sys and e.id_member = m.id_member order by id_eva desc`)
         res.json(rows)
 
         

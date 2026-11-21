@@ -3,10 +3,10 @@ const db = require('../../db')
 const {verifyToken,requireRole} = require('../../Middleware/authmiddleware')
 const router = express.Router()
 
-router.get('/commit/:id_eva',verifyToken,requireRole('ผู้รับการประเมินผล'),async (req,res) => {
+router.get('/commit/:id_eva',verifyToken,requireRole('ฝ่ายบุคลากร'),async (req,res) => {
     try {
         const {id_eva} = req.params
-        const [rows] = await db.query(`select * from tb_member m,tb_eva e,tb_system s,tb_commit c where c.id_eva=? and c.id_eva=e.id_eva and e.id_member=m.id_member and e.id_sys=s.id_sys order by c.id_eva desc`,[id_eva])
+        const [rows] = await db.query(`select * from tb_member m,tb_eva e,tb_system s,tb_commit c where c.id_eva=? and c.id_eva=e.id_eva and c.id_member=m.id_member and e.id_sys=s.id_sys order by c.id_eva desc`,[id_eva])
         res.json(rows)
     } catch (error) {
         console.error('Error get',error)
@@ -14,7 +14,7 @@ router.get('/commit/:id_eva',verifyToken,requireRole('ผู้รับกา�
     }
 })
 
-router.get('/scores/:id_eva',verifyToken,requireRole('ผู้รับการประเมินผล'),async (req,res) => {
+router.get('/scores/:id_eva',verifyToken,requireRole('ฝ่ายบุคลากร'),async (req,res) => {
     try {
         const id_eva = req.params.id_eva
         const [rows] = await db.query(`select * from tb_indicate i,tb_evadetail d where d.id_indicate=i.id_indicate and status_eva in (2,3,4) and d.id_eva=?`,[id_eva])

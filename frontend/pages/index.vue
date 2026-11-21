@@ -7,7 +7,7 @@
                         <div class="text-center text-md-start ">
                             <div class="logo-box md-6 mx-auto mx-md-0">
                                 <div class="logo-ring"></div>
-                                <v-sheet width="150" height="150" rounded="circle" elevation="8" class="logo-float d-flex justify-center align-center">
+                                <v-sheet width="150" height="150" rounded="circle" elevation="2" class="logo-float d-flex justify-center align-center">
                                     <v-img src="/img/logo.png" width="200" height="200"></v-img>
                                 </v-sheet>
                             </div>
@@ -24,10 +24,10 @@
                                 </v-chip>
                             </ClientOnly>
 
-                            <v-card rounded="xl" variant="outlined" color="grey-lighten-2" class="bg-white pa-4 d-none d-md-0">
-                                <div class="text-body-medium font-weight-bold text-black mb-3">การเข้าใช้งานระบบ</div>
+                            <v-card rounded="xl" variant="outlined" color="grey-lighten-2" class="bg-white pa-4">
+                                <div class="text-title-large font-weight-bold text-black mb-3">การเข้าใช้งานระบบ</div>
                                 <v-list density="compact" bg-color="transpent">
-                                    <v-list-item v-for="r in roles" :key="r.title" :title="r.title" :subtitle="r.detail" :prepend-icon="r.icon" class="px-0 text-blck"></v-list-item>
+                                    <v-list-item v-for="r in roles" :key="r.title" :title="r.title" :subtitle="r.detail" :prepend-icon="r.icon" class="px-0 text-black text-start"></v-list-item>
                                 </v-list>
                             </v-card>
                         </div>
@@ -41,7 +41,7 @@
                                 <h3 class="text-headline-large font-weight-bold">เข้าสู่ระบบ</h3>
                             </div>
                             <div class="text-body-medium text-medium-emphasis mb-6">กรุณาลงชื่อเข้าใช้เพื่อเข้าสู่ระบบ</div>
-                            <v-alert rounded="lg" v-if="error" variant="tonal" type="error" class="mb-2 shake">{{ error }}</v-alert>
+                            <v-alert rounded="lg" v-if="error" density="compact" variant="tonal" type="error" class="mb-4 shake">{{ error }}</v-alert>
                             <v-form @submit.prevent="login">
                                 <v-row>
                                     <v-col cols="12" md="12">
@@ -60,7 +60,7 @@
                                 <v-row>
                                     <v-col cols="12" md="12">
                                         <center>
-                                            <v-btn class="red-button text-center text-white py-8" rounded="lg" block append-icon="mdi-arrow-right" type="submit">เข้าสู่ระบบ</v-btn>
+                                            <v-btn class="red-button text-center font-weight-bold text-title-large text-white py-8" rounded="lg" block append-icon="mdi-arrow-right" type="submit">เข้าสู่ระบบ</v-btn>
                                         </center>
                                     </v-col>
                                 </v-row>
@@ -95,7 +95,7 @@ const password = ref('')
 const role = ref('')
 
 const roles = ref([
-    {title:'ฝ่ายบุคลากร',detail:'จัดการการประเมินเช่น จัดการผู้รับและกรรมการประเมิน จัดการหัวข้อและตัวชี้วัด และจัดการรอบการประเมิน',icon:'mdi-account-tie'},
+    {title:'ฝ่ายบุคลากร',detail:'จัดการการประเมินเช่น จัดการผู้รับและกรรมการประเมิน จัดการหัวข้อและตัวชี้วัด',icon:'mdi-account-tie'},
     {title:'ผู้รับการประเมินผล',detail:'แก้ไขข้อมูลส่วนตัว ประเมินตนเองและรายงานผลการประเมิน',icon:'mdi-account-school'},
     {title:'กรรมการประเมิน',detail:'ประเมินผลผู้รับการประเมินผล แนบลายเซ็น',icon:'mdi-account-star'},
 ])
@@ -167,6 +167,11 @@ const login = async()=>{
     background: linear-gradient(135deg,rgb(255, 56, 56),rgb(255, 76, 115));
 }
 
+.red-button:hover{
+    background: linear-gradient(135deg,rgb(255, 56, 56),rgb(255, 76, 115));
+    box-shadow: 0px 5px 10px 2px rgba(255, 76, 115, 0.785);
+}
+
 .logo-box{
     position: relative;
     width: 200px;
@@ -186,7 +191,33 @@ const login = async()=>{
     animation: spin 3s infinite linear;
 }
 
+.shake{
+    animation: shake 0.4s ease-in-out infinite;
+}
+
+.blink{
+    animation: blink 1s ease-in-out infinite;
+}
+
+.logo-float{
+    animation: float 2s ease-in-out infinite;
+}
+
 @keyframes spin{
     to {transform: rotate(360deg);}
+}
+
+@keyframes shake{
+    50% {transform: translateX(-3px);}
+    50% {transform: translateX(3px);}
+}
+
+@keyframes float{
+    50% {transform: translateY(-6px);}
+    50% {transform: translateY(6px);}
+}
+
+@keyframes blink{
+    100% {opacity: 0.2;}
 }
 </style>

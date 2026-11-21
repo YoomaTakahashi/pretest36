@@ -7,7 +7,7 @@
                         <v-card-title>
                             <center><v-img class="mt-3" src="/img/logo.png" width="15%"></v-img></center>
                             <h3 class="text-center font-weight-bold">สมัครสมาชิก</h3>
-                            <h3 class="text-center font-weight-bold text-medium-emphasis text-body-medium">NTC Evaluation System</h3>
+                            <h3 class="text-center font-weight-bold text-medium-emphasis text-title-large">NTC Evaluation System</h3>
                         </v-card-title>
                         <v-card-text>
                             <br>
@@ -41,7 +41,7 @@
                                 <v-row>
                                     <v-col cols="12" md="12">
                                         <center>
-                                            <v-btn class="red-button text-center text-white w-50 py-8" append-icon="mdi-arrow-right" type="submit" rounded="lg">สมัครสมาชิก</v-btn>
+                                            <v-btn class="red-button text-center font-weight-bold text-title-large text-white w-50 py-8" append-icon="mdi-arrow-right" type="submit" rounded="lg">สมัครสมาชิก</v-btn>
                                         </center>
                                     </v-col>
                                 </v-row>
@@ -123,6 +123,11 @@ const saveMember = async()=>{
 <style scoped>
 .bg-style{
     background: linear-gradient(135deg,white 0%,rgb(255, 239, 239) 25%,rgb(234, 248, 255) 70%);
+}
+
+.red-button:hover{
+    background: linear-gradient(135deg,rgb(255, 56, 56),rgb(255, 76, 115));
+    box-shadow: 0px 5px 10px 2px rgba(255, 76, 115, 0.785);
 }
 
 .red-button{

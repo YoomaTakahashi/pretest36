@@ -53,10 +53,11 @@ ts<template>
                             <tbody>
                                 <tr v-for="(items,index) in result" :key="items.id_eva">
                                     <td class="text-center">{{ index+1 }}</td>
-                                    <td class="text-center">{{ formatDate(items.day_eva) }}</td>
+                                    <td class="text-center"> {{ items.fname }} {{ items.lname }}</td>
                                     <td class="text-center"> รอบการประเมินที่:{{ items.round_sys}} ปี:{{ items.year_sys }}</td>
+                                    <td class="text-center">{{ formatDate(items.day_eva) }}</td>
                                     <td class="text-center">
-                                        <v-btn rounded="circle" icon="mdi-account-plus" variant="tonal" color="success" @click="go(items.id_eva)"></v-btn>
+                                        <v-btn rounded="circle" icon="mdi-account-plus" variant="tonal" size="small" color="success" @click="go(items.id_eva)"></v-btn>
                                     </td>
                                     <td class="text-center">
                                         <center>
@@ -66,7 +67,7 @@ ts<template>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="text-center text-red" v-if="result.length === 0" colspan="12">ไม่พบข้อมูล</td>
+                                    <td class="text-center text-body-medium text-medium-emphasis" v-if="result.length === 0" colspan="12">ไม่พบข้อมูล</td>
                                 </tr>
                             </tbody>
                         </v-table>
@@ -133,7 +134,7 @@ const fetch = async()=>{
     try {
         const res = await axios.get(`${staff}/eva/show`,{headers:{Authorization:`Bearer ${token}`}})
         dataResult.value = res.data
-        const res2 = await axios.get(`${staff}/member/show`,{headers:{Authorization:`Bearer ${token}`}})
+        const res2 = await axios.get(`${staff}/member/showE`,{headers:{Authorization:`Bearer ${token}`}})
         eva.value = res2.data
         const res3 = await axios.get(`${staff}/system/showY`,{headers:{Authorization:`Bearer ${token}`}})
         round.value = res3.data

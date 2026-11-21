@@ -47,6 +47,7 @@ ts<template>
                     </v-card>
                     <v-card class="mt-4" rounded="xl" elevation="5">
                         <v-text-field label="ค้นหา" v-model="search" prepend-inner-icon="mdi-magnify" variant="outlined" class="ma-3"></v-text-field>
+                        <h3 class="font-weight-bold"><v-icon icon="mdi-account-star" class="ms-2"></v-icon>กรรมการประเมิน</h3>
                         <v-divide></v-divide>
                         <v-table class="mt-3" hover>
                             <thead>
@@ -73,7 +74,7 @@ ts<template>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="text-center text-red" v-if="result.length === 0" colspan="12">ไม่พบข้อมูล</td>
+                                    <td class="text-center text-body-medium text-medium-emphasis" v-if="result.length === 0" colspan="12">ไม่พบข้อมูล</td>
                                 </tr>
                             </tbody>
                         </v-table>
@@ -217,7 +218,7 @@ const result = computed(()=>{
     const s = search.value.toLowerCase()
     return dataResult.value.filter((items:any)=>{
         return(
-            items.usename.toLowerCase().includes(s)
+            items.username.toLowerCase().includes(s)
         )
     })
 })

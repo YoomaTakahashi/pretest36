@@ -2,7 +2,7 @@
     <v-container>
         <PageHeader title="ผลการประเมินของกรรมการประเมิน" subtitle="คะแนนจากประธาน กรรมการ และเลขา แยกตามหัวข้อ" icon="mdi-account-group" color="#7d0c14"></PageHeader>
 
-        <v-form v-if="user.status_eva === 2 || user.status_eva === 3">
+        <v-form v-if="user.status_eva === 3">
             <v-card rounded="xl" class="mb-6" elevation="4">
                 <v-list-item prepend-icon="mdi-account-circle" :title="`${user.fname}-${user.lname}`" :subtitle="`รอบการประเมิน : ${user.round_sys} /ปี ${user.year_sys}`" ></v-list-item>
             </v-card>
@@ -65,6 +65,7 @@
             </div>
         </v-form>
         <v-alert color="warning" type="warning" v-else-if="user.status_eva === 1" rounded="xl" variant="tonal">ยังไม่ได้ประเมินตนเอง</v-alert>
+        <v-alert color="info" type="info" v-else-if="user.status_eva === 2" rounded="xl" variant="tonal">รอกรรมการประเมิน</v-alert>
         <v-alert type="error" v-else rounded="xl" variant="tonal">ไม่มีแบบประเมิน</v-alert>
     </v-container>
 </template>

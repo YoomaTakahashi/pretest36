@@ -23,7 +23,7 @@
                             <v-textarea label="คำอธิบายเพิ่มเติม(ถ้ามี)" variant="outlined" v-model="indicate.detail_eva" rows="1" auto-grow></v-textarea>
                         </v-col>
                         <v-col cols="12" md="4">
-                            <v-file-input label="*** รองรับเฉพาะ .PNG .PDF และ .JPG" v-model="indicate.file_eva" variant="outlined" @change="onFilechange($event,topic.id_topic,indicate.id_indicate)" accept=".png,jpg.,pdf" prepend-icon="mdi-paperclip"></v-file-input>
+                            <v-file-input label="*** รองรับเฉพาะ .PNG .PDF และ .JPG" v-model="indicate.file_eva" variant="outlined" @change="onFilechange($event,topic.id_topic,indicate.id_indicate)" accept=".png,.jpg,.pdf" prepend-icon="mdi-paperclip"></v-file-input>
                         </v-col>
                     </v-row>
                     <v-divider v-if="Number(i) < topic.indicates.length - 1"></v-divider>

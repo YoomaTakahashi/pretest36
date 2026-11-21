@@ -44,7 +44,7 @@
 
             <v-card class="mt-4" rounded="xl" elevation="3">
                 <v-card-title class="pa-4">
-                    <v-icon icon="mdi-comment-text-multiple" color="red-darken-4" class="me-2"></v-icon>
+                    <v-icon icon="mdi-comment-text-multiple" color="#647687" class="me-2"></v-icon>
                     ข้อเสนอแนะของกรรมการ
                 </v-card-title>
                 <v-list>
@@ -78,11 +78,11 @@ const fetch = async()=>{
     try {
         const res = await axios.get(`${staff}/score_member/user/${id_eva}`,{headers:{Authorization:`Bearer ${token}`}})
         user.value = res.data
-        const res2 = await axios.get(`${eva}/score_commit/topic/${id_eva}`,{headers:{Authorization:`Bearer ${token}`}})
+        const res2 = await axios.get(`${staff}/score_commit/topic/${id_eva}`,{headers:{Authorization:`Bearer ${token}`}})
         topics.value = res2.data
-        const res3 = await axios.get(`${eva}/score_commit/scores/${id_eva}`,{headers:{Authorization:`Bearer ${token}`}})
+        const res3 = await axios.get(`${staff}/score_commit/scores/${id_eva}`,{headers:{Authorization:`Bearer ${token}`}})
         scores.value = res3.data
-        const res4 = await axios.get(`${eva}/score_commit/commit/${id_eva}`,{headers:{Authorization:`Bearer ${token}`}})
+        const res4 = await axios.get(`${staff}/score_commit/commit/${id_eva}`,{headers:{Authorization:`Bearer ${token}`}})
         commits.value = res4.data
     } catch (error) {
         console.error('Error GEt',error)
