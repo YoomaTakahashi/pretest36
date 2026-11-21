@@ -55,7 +55,7 @@ router.put('/changePw',verifyToken,async (req,res) => {
             return res.status(400).json({message:"กรอกรหัสผ่านไม่ถูกต้อง"})
         }
         if(oldPw.trim() === newPw.trim()){
-            res.status(400).json({message:"รหัสผ่านใหม่ไม่ควรซ้ำกับหรัสเดิม"})
+            res.status(400).json({message:"รหัสผ่านใหม่ไม่ควรซ้ำกับรหัสเดิม"})
         }
         const hash = await bc.hash(newPw,10)
         await db.query(`update tb_member set password = ? where id_member=?`,[hash,id_member])
