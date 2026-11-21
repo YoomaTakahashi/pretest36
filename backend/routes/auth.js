@@ -35,7 +35,7 @@ router.post('/login',async (req,res) => {
             return res.status(400).json({message:"รหัสผ่านไม่ถูกต้อง"})
         }
         const token = jwt.sign(
-            {id_member:m.id_member,username:m.username,role:m.role},JWT_SECRET,{expiresIn:'24'}
+            {id_member:m.id_member,username:m.username,role:m.role},JWT_SECRET,{expiresIn:'24h'}
         )
         const statusPw = m.role === 'ผู้รับการประเมินผล' && m.statusPw === 'n'
         res.json({token,role:m.role,statusPw})
@@ -49,16 +49,17 @@ router.post('/login',async (req,res) => {
 router.put('/changePw',verifyToken,async (req,res) => {
     try {
         const {newPw,oldPw} = req.body
-        const {id_member} = req.user.id_member
-        const [rows] = await db.query(`select role from tb_member where id_member`,[id_member])
-        if(!rows[0] || !rows[0].oldPw || !(await bc.compare(oldPw,rows[0].password))){
+        const id_member = req.user.id_member
+        const [rows] = await db.query(`select password from tb_member where id_member`,[id_member])
+        const m = rows[0]
+        if(!m || !oldPw || !(await bc.compare(oldPw,m.password))){
             return res.status(400).json({message:"กรอกรหัสผ่านไม่ถูกต้อง"})
         }
         if(oldPw.trim() === newPw.trim()){
             res.status(400).json({message:"รหัสผ่านใหม่ไม่ควรซ้ำกับรหัสเดิม"})
         }
         const hash = await bc.hash(newPw,10)
-        await db.query(`update tb_member set password = ? where id_member=?`,[hash,id_member])
+        await db.query(`update tb_member set password = ?,statusPw=? where id_member=?`,[hash,'y',id_member])
         res.json({message:"เปลี่ยนรหัสผ่านสำเร็จ"})
     } catch (error) {
         console.error("error change",error);

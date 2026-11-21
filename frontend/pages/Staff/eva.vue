@@ -3,6 +3,7 @@ ts<template>
         <v-container>
             <v-row justify="center">
                 <v-col cols="12" md="12">
+                    <page-header class="mb-4" title="จัดการแบบประเมิน" icon="mdi-file-document-edit" subtitle="เลือกผู้รับการประเมินและรอบการประเมิน"></page-header>
                     <v-card rounded="xl" elevation="12">
                         <v-card-title>
                             <h3 class="font-weight-bold"><v-icon :icon="form.id_eva ? 'mdi-pencil':'mdi-plus'"></v-icon>จัดการแบบประเมิน</h3>
@@ -24,15 +25,15 @@ ts<template>
                                 <v-row>
                                     <v-col cols="12" md="12">
                                         <center>
-                                            <v-btn class=" text-center text-white" prepend-icon="mdi-content-save" type="submit" rounded="lg" color="primary">{{ form.id_eva ? 'อัปเดต':'บันทึก' }}</v-btn>
-                                            <v-btn class=" text-center text-white" prepend-icon="mdi-close" @click="reset()" rounded="lg" color="error" variant="tonal">ยกเลิก</v-btn>
+                                            <v-btn class=" text-center text-white ma-2" prepend-icon="mdi-content-save" type="submit" color="primary">{{ form.id_eva ? 'อัปเดต':'บันทึก' }}</v-btn>
+                                            <v-btn class=" text-center text-white" prepend-icon="mdi-close" @click="reset()"  color="error" variant="tonal">ยกเลิก</v-btn>
                                         </center>
                                     </v-col>
                                 </v-row>
                             </v-form>
                             <v-card rounded="xl" elevation="5">
                                 <h3 class="font-weight-bold">แบบประเมิน</h3>
-                                <v-text-field label="ค้นหา" v-model="search" prepend-inner-icon="mdi-magnify" variant="outlined" class="ms-3"></v-text-field>
+                                <v-text-field label="ค้นหา" v-model="search" prepend-inner-icon="mdi-magnify" variant="outlined" class="ma-3"></v-text-field>
                                 <v-divide></v-divide>
                                 <v-table class="mt-3" hover>
                                     <thead>
@@ -51,7 +52,7 @@ ts<template>
                                             <td class="text-center">{{ formatDate(items.day_eva) }}</td>
                                             <td class="text-center"> รอบการประเมินที่:{{ items.round_sys}} ปี:{{ items.year_sys }}</td>
                                             <td class="text-center">
-                                                <v-btn rounded="circle" icon="mdi-account-plus" variant="tonal" color="error" @click="go(items.id_eva)"></v-btn>
+                                                <v-btn rounded="circle" icon="mdi-account-plus" variant="tonal" color="success" @click="go(items.id_eva)"></v-btn>
                                             </td>
                                             <td class="text-center">
                                                 <center>

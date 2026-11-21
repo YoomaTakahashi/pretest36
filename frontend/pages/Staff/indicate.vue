@@ -3,9 +3,10 @@ ts<template>
         <v-container>
             <v-row justify="center">
                 <v-col cols="12" md="12">
+                    <page-header class="mb-4" title="จัดการตัวชี้วัด" icon="mdi-chart-box-outline" subtitle="เลือกหัวข้อการประเมิน กรอกข้อมูล และ เลือกประเภทตัวเลือก"></page-header>
                     <v-card rounded="xl" elevation="12">
                         <v-card-title>
-                            <h3 class="font-weight-bold"><v-icon :icon="form.id_indicae ? 'mdi-pencil':'mdi-plus'"></v-icon>จัดการหัวข้อการประเมิน</h3>
+                            <h3 class="font-weight-bold"><v-icon :icon="form.id_indicate ? 'mdi-pencil':'mdi-plus'"></v-icon>จัดการหัวข้อการประเมิน</h3>
                         </v-card-title>
                         <v-card-text>
                             <br>
@@ -30,15 +31,15 @@ ts<template>
                                 <v-row>
                                     <v-col cols="12" md="12">
                                         <center>
-                                            <v-btn class=" text-center text-white" prepend-icon="mdi-content-save" type="submit" rounded="lg" color="primary">{{ form.id_indicate ? 'อัปเดต':'บันทึก' }}</v-btn>
-                                            <v-btn class=" text-center text-white" prepend-icon="mdi-close" @click="reset()" rounded="lg" color="error" variant="tonal">ยกเลิก</v-btn>
+                                            <v-btn class=" text-center text-white ma-2" prepend-icon="mdi-content-save" type="submit" color="primary">{{ form.id_indicate ? 'อัปเดต':'บันทึก' }}</v-btn>
+                                            <v-btn class=" text-center text-white" prepend-icon="mdi-close" @click="reset()"  color="error" variant="tonal">ยกเลิก</v-btn>
                                         </center>
                                     </v-col>
                                 </v-row>
                             </v-form>
                             <v-card rounded="xl" elevation="5">
                                 <h3 class="font-weight-bold">ตัวชี้วัด</h3>
-                                <v-text-field label="ค้นหา" v-model="search" prepend-inner-icon="mdi-magnify" variant="outlined" class="ms-3"></v-text-field>
+                                <v-text-field label="ค้นหา" v-model="search" prepend-inner-icon="mdi-magnify" variant="outlined" class="ma-3"></v-text-field>
                                 <v-divide></v-divide>
                                 <v-table class="mt-3" hover>
                                     <thead>

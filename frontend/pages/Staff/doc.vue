@@ -3,6 +3,8 @@ ts<template>
         <v-container>
             <v-row justify="center">
                 <v-col cols="12" md="12">
+                    <page-header class="mb-4" title="เอกสารหรือคู่มือการประเมิน" icon="mdi-file-pdf-box" subtitle="จัดการเอกสารการประเมิน"></page-header>
+
                     <v-card rounded="xl" elevation="12">
                         <v-card-title>
                             <h3 class="font-weight-bold"><v-icon :icon="form.id_doc ? 'mdi-pencil':'mdi-plus'"></v-icon>เอกสารหรือคู่มือการประเมินผล</h3>
@@ -12,51 +14,46 @@ ts<template>
                             <v-form @submit.prevent="saveMember">
                                 <v-row>
                                     <v-col cols="12" md="6">
-                                        <v-select label="ผู้รับการประเมินผล" v-model="form.id_member" :error-messages="error.id_member" variant="outlined" :items="eva.map((t)=>({title:`${t.fname} ${t.lname}`,value:t.id_member}))"></v-select>
+                                        <v-text-field label="ชื่อเอกสาร" v-model="name_doc" :error-messages="error.name_doc" variant="outlined"></v-text-field>
                                     </v-col>
                                     <v-col cols="12" md="6">
-                                        <v-select label="รอบการประเมิน" v-model="form.id_sys" :error-messages="error.id_sys" variant="outlined" :items="round.map((t)=>({title:`รอบการประเมินที่:${t.round_sys} ปี:${t.year_sys}`,value:t.id_sys}))"></v-select>
-                                    </v-col>
-                                    <v-col cols="12" md="6">
-                                        <v-text-field label="วันที่ออกแบบประเมิน" v-model="form.day_eva" :error-messages="error.day_eva" type="date" variant="outlined"></v-text-field>
+                                        <v-file-input label="ไฟล์เอกสาร" v-model="file" :error-messages="error.file" variant="outlined" accept=".pdf,.docx" hint="รองรับเฉพาะไฟล์ PDF หรือ DOCX ขนาดไม่เกิน 10MB"></v-file-input>
                                     </v-col>
                                 </v-row>
                                 <v-row>
                                     <v-col cols="12" md="12">
                                         <center>
-                                            <v-btn class=" text-center text-white" prepend-icon="mdi-content-save" type="submit" rounded="lg" color="primary">{{ form.id_eva ? 'อัปเดต':'บันทึก' }}</v-btn>
-                                            <v-btn class=" text-center text-white" prepend-icon="mdi-close" @click="reset()" rounded="lg" color="error" variant="tonal">ยกเลิก</v-btn>
+                                            <v-btn class=" text-center text-white ma-2" prepend-icon="mdi-content-save" type="submit" rounded="lg" color="primary">{{ form.id_doc ? 'อัปเดต':'บันทึก' }}</v-btn>
+                                            <v-btn class=" text-center text-white ma-2" prepend-icon="mdi-close" @click="reset()" rounded="lg" color="error" variant="tonal">ยกเลิก</v-btn>
                                         </center>
                                     </v-col>
                                 </v-row>
                             </v-form>
                             <v-card rounded="xl" elevation="5">
-                                <h3 class="font-weight-bold">แบบประเมิน</h3>
-                                <v-text-field label="ค้นหา" v-model="search" prepend-inner-icon="mdi-magnify" variant="outlined" class="ms-3"></v-text-field>
+                                <h3 class="font-weight-bold"><v-icon icon="mdi-file-pdf" class="ms-2"></v-icon>เอกสารหรือคู่มือการประเมิน</h3>
+                                <v-text-field label="ค้นหา" v-model="search" prepend-inner-icon="mdi-magnify" variant="outlined" class="ma-3"></v-text-field>
                                 <v-divide></v-divide>
                                 <v-table class="mt-3" hover>
                                     <thead>
                                         <tr>
                                             <th class="text-center">ลำดับ</th>
-                                            <th class="text-center">ผู้รับการประเมินผล</th>
-                                            <th class="text-center">รอบการประเมิน</th>
-                                            <th class="text-center">วันที่ออกแบบประเมิน</th>
-                                            <th class="text-center">เพิ่มกรรมการ</th>
+                                            <th class="text-center">ชื่อเอกสาร</th>
+                                            <th class="text-center">วันที่ออกเอกสาร</th>
+                                            <th class="text-center">เอกสาร</th>
                                             <th class="text-center">จัดการ</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="(items,index) in result" :key="items.id_eva">
+                                        <tr v-for="(items,index) in result" :key="items.id_doc">
                                             <td class="text-center">{{ index+1 }}</td>
-                                            <td class="text-center">{{ formatDate(items.day_eva) }}</td>
-                                            <td class="text-center"> รอบการประเมินที่:{{ items.round_sys}} ปี:{{ items.year_sys }}</td>
+                                            <td class="text-center">{{ items.fname }} {{ items.lname }}</td>
+                                            <td class="text-center">{{ formatDate(items.day_doc) }}</td>
                                             <td class="text-center">
-                                                <v-btn rounded="circle" icon="mdi-account-plus" variant="tonal" color="error" @click="go(items.id_eva)"></v-btn>
+                                                <v-btn rounded="circle" icon="mdi-eye" variant="tonal" color="info" @click="view(items.file)"></v-btn>
                                             </td>
                                             <td class="text-center">
                                                 <center>
-                                                    <v-btn rounded="circle" icon="mdi-pencil" variant="tonal" color="warning" @click="edit(items)" class="ms-2"></v-btn>
-                                                    <v-btn rounded="circle" icon="mdi-delete" variant="tonal" color="error" @click="del(items.id_sys)" class="ms-2"></v-btn>
+                                                    <v-btn rounded="circle" icon="mdi-delete" variant="tonal" color="error" @click="del(items.id_eva)" class="ms-2"></v-btn>
                                                 </center>
                                             </td>
                                         </tr>
@@ -77,33 +74,22 @@ ts<template>
 
 <script setup lang="ts">
 import axios from 'axios'
+import { compile } from 'vue'
 import { api, staff } from '~/API/base'
+import PageHeader from '~/components/PageHeader.vue'
 const error = ref<Record<string,string>>({})
-const pic_user = ref<File | null>(null)
+const file = ref<File | null>(null)
 const dataResult = ref([])
-const eva = ref<any>([])
-const round = ref<any>([])
-const form = ref({
-    id_eva:null,
-    id_member:'',
-    id_sys:'',
-    day_eva:''
-})
+const name_doc = ref('')
+
 const reset = ()=>{
-    form.value = {
-        id_eva:null,
-        id_member:'',
-        id_sys:'',
-        day_eva:''
-    }
+    name_doc.value = ''
+    file.value = null
 }
 function validate(){
     error.value = {}
-    const f = form.value
-
-    if(!f.id_member)error.value.id_member = 'กรุณาเลือกผู้รับการประเมินผล'
-    if(!f.id_sys)error.value.id_sys = 'กรุณาเลือกรอบการประเมิน'
-    if(!f.day_eva)error.value.day_eva = 'กรุณากรอกวันที่ออกแบบประเมิน'
+    if(!name_doc.value.trim())error.value.name_doc = 'กรุณากรอกชื่อเอกสาร'
+    if(!file.value)error.value.file = 'กรุณาเลือกไฟล์เอกสาร'
 
 
     return Object.keys(error.value).length === 0
@@ -114,11 +100,15 @@ const token = import.meta.client ? localStorage.getItem('token'):null
 
 const saveMember = async()=>{
     if(!validate())return 
-    const f = form.value
+    const maxSize = 10*1024*1024
+    if(file.value?.size > maxSize){
+        alert('ไฟล์มีขนาดเกิน 10MB')
+    }
+    const formdata = new FormData
+    formdata.append('name_doc',name_doc.value)
+    formdata.append('file',file.value!)
     try {
-        f.id_eva
-        ? await axios.put(`${staff}/eva/update/${f.id_eva}`,f,{headers:{Authorization:`Bearer ${token}`}})
-        : await axios.post(`${staff}/eva/save`,f,{headers:{Authorization:`Bearer ${token}`}})
+        await axios.post(`${staff}/doc/save`,formdata,{headers:{Authorization:`Bearer ${token}`}})
         await fetch()
         await reset()
         alert("ดำเนินการสำเร็จ")
@@ -129,12 +119,8 @@ const saveMember = async()=>{
 
 const fetch = async()=>{
     try {
-        const res = await axios.get(`${staff}/eva/show`,{headers:{Authorization:`Bearer ${token}`}})
+        const res = await axios.get(`${staff}/doc/show`,{headers:{Authorization:`Bearer ${token}`}})
         dataResult.value = res.data
-        const res2 = await axios.get(`${staff}/member/show`,{headers:{Authorization:`Bearer ${token}`}})
-        eva.value = res2.data
-        const res3 = await axios.get(`${staff}/system/showY`,{headers:{Authorization:`Bearer ${token}`}})
-        round.value = res3.data
 
     } catch (error) {
         console.error("Error get",error);
@@ -142,19 +128,11 @@ const fetch = async()=>{
     }
 }
 
-const edit = async(items:any)=>{
-    try {
-        form.value = {...items}
-    } catch (error) {
-        console.error("error get",error);
-        
-    }
-}
 
-const del = async(id_eva:number)=>{
+const del = async(id_doc:number)=>{
     if(!confirm('ต้องการลบข้อมูลชุดนี้ใช่หรือไม่'))return
     try {
-        await axios.delete(`${staff}/eva/delete/${id_eva}`,{headers:{Authorization:`Bearer ${token}`}})
+        await axios.delete(`${staff}/doc/delete/${id_doc}`,{headers:{Authorization:`Bearer ${token}`}})
         await fetch()
         await reset()
     } catch (error) {
@@ -169,8 +147,7 @@ const result = computed(()=>{
     const s = search.value.toLowerCase()
     return dataResult.value.filter((items:any)=>{
         return(
-            items.fname.toLowerCase().includes(s) ||
-            items.lname.toLowerCase().includes(s)
+            items.name_doc.toLowerCase().includes(s)
         )
     })
 })
@@ -180,11 +157,10 @@ const formatDate = (dateStr:string)=>{
     return day.toLocaleDateString('th-TH')
 }
 
-const go = (id_eva)=>{
-    navigateTo({path:`/Staff/commit-eva-${id_eva}`})
+const view = (filename:string)=>{
+    const url = new URL(`/uploads/document/${filename}`,api).href
+    window.open(url,'_blank')
 }
-
-
 
 onMounted(fetch)
 </script>

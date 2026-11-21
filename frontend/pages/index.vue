@@ -147,7 +147,7 @@ const login = async()=>{
         alert("ดำเนินการสำเร็จ")
         if(res.data.statusPw)return navigateTo('/Evaluatee/changePw')
 
-        const useRole = res.data.token
+        const useRole = res.data.role
         if(useRole === 'ฝ่ายบุคลากร')useRouter().push('/Staff')
         if(useRole === 'ผู้รับการประเมินผล')useRouter().push('/Evaluatee')
         if(useRole === 'กรรมการประเมิน')useRouter().push('/Committee')

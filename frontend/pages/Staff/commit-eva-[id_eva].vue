@@ -3,6 +3,7 @@ ts<template>
         <v-container>
             <v-row justify="center">
                 <v-col cols="12" md="12">
+                    <page-header class="mb-4" title="เพิ่มกรรมการประเมิน" icon="mdi-account-group" subtitle="เพิ่มกรรมการทั้ง 3 คน"></page-header>
                     <v-card class="mb-4" rounded="xl" elevation="12">
                         <v-list bg-color="transparent" density="compact">
                             <v-list-item :title="`ผู้รับการประเมิน: ${header.fname} ${header.lname}`" :subtitle="`รอบการประเมิน: ${header.round_sys} ปี:${header.year_sys}`" class="pa-4"></v-list-item>
@@ -26,7 +27,7 @@ ts<template>
                                 <v-row>
                                     <v-col cols="12" md="12">
                                         <center>
-                                            <v-btn class=" text-center text-white" prepend-icon="mdi-content-save" type="submit" rounded="lg" color="primary">บันทึก</v-btn>
+                                            <v-btn class=" text-center text-white ma-2" prepend-icon="mdi-content-save" type="submit" color="primary">บันทึก</v-btn>
                                             <v-btn class=" text-center text-grey" prepend-icon="mdi-arrow-left" rounded="lg" to="/Staff/eva" color="grey" variant="outlined">ย้อนกลับ</v-btn>
                                         </center>
                                     </v-col>
