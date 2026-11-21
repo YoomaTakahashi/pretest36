@@ -30,14 +30,14 @@
                                         <v-text-field label="ยืนยันรหัสผ่าน" v-model="conP" :error-messages="error.conP" variant="outlined" prepend-inner-icon="mdi-lock" :append-inner-icon="show2 ? 'mdi-eye':'mdi-eye-off'" :type="show2 ? 'text':'password'" @click:append-inner="show2 = !show2"></v-text-field>
                                     </v-col>
                                     <v-col cols="12" md="12">
-                                        <v-alert variant="tonal" icon="mdi-account"></v-alert>
+                                        <v-alert variant="tonal" icon="mdi-account" :text="form.role"></v-alert>
                                     </v-col>
                                 </v-row>
                                 <v-row>
                                     <v-col cols="12" md="12">
                                         <center>
-                                            <v-btn color="info" class="text-center text-white"  type="submit" rounded="lg">สมัครสมาชิก</v-btn>&nbsp;&nbsp;
-                                            <v-btn color="error " class="text-center text-white" type="submit" rounded="lg">สมัครสมาชิก</v-btn>
+                                            <v-btn color="info" class="text-center text-white"  type="submit" rounded="lg">แก้ไข</v-btn>&nbsp;&nbsp;
+                                            <v-btn color="error " class="text-center text-white" type="reset" rounded="lg">ยกเลิก</v-btn>
                                         </center>
                                     </v-col>
                                 </v-row>
@@ -121,7 +121,3 @@ const fetch = async()=>{
 
 onMounted(fetch)
 </script>
-
-<style scoped>
-
-</style>
