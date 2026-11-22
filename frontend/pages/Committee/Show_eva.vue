@@ -24,7 +24,7 @@ ts<template>
                                     <td class="text-center">{{ items.fname }}</td>
                                     <td class="text-center">{{ items.lname }}</td>
                                     <td class="text-center">{{ formatDate(items.day_eva) }}</td>
-                                    <td class="text-center">รอบที่ : {{ items.round_sys }} /ปี : {{ items.year_sys }}</td>
+                                    <td class="text-center">รอบที่: {{ items.round_sys }} / ปี: {{ items.year_sys }}</td>
                                     <td class="text-center">
                                         <v-chip :color="bg(items.status_eva)" :prepend-icon="icon(items.status_eva)" variant="tonal" size="small">{{ items.status_eva === 1 ? 'รอการประเมินตนเอง':items.status_eva === 2 ? 'รอกรรมการประเมิน':'ประเมินสำเร็จ' }}</v-chip>
                                     </td>

@@ -3,11 +3,11 @@
         <v-container>
             <v-row justify="center">
                 <v-col cols="12" md="12">
-                    <v-card rounded="xl" elevation="12">
+                    <v-card rounded="xl" elevation="3">
                         <v-card-title>
-                            <center><v-img class="mt-3" src="/img/logo.png" width="15%"></v-img></center>
-                            <h3 class="text-center font-weight-bold">สมัครสมาชิก</h3>
-                            <h3 class="text-center font-weight-bold text-medium-emphasis text-title-large">NTC Evaluation System</h3>
+                            <center><v-img class="mt-3" src="/img/logo.png" width="20%"></v-img></center>
+                            <h3 class="text-center text-title-large font-weight-bold">สมัครสมาชิก</h3>
+                            <h3 class="text-center text-title-large font-weight-bold text-emphasis">NTC Evaluation System</h3>
                         </v-card-title>
                         <v-card-text>
                             <br>
@@ -26,29 +26,27 @@
                                         <v-text-field label="ชื่อผู้ใช้" v-model="form.username" :error-messages="error.username" variant="outlined" prepend-inner-icon="mdi-account-circle"></v-text-field>
                                     </v-col>
                                     <v-col cols="12" md="6">
-                                        <v-text-field label="รหัสผ่าน" v-model="form.password" :error-messages="error.password" variant="outlined" prepend-inner-icon="mdi-lock" :append-inner-icon="show ? 'mdi-eye':'mdi-eye-off'" :type="show ? 'text':'password'" @click:append-inner="show = !show"></v-text-field>
+                                        <v-text-field label="รหัสผ่าน" v-model="form.password" :error-messages="error.password" variant="outlined" prepend-inner-icon="mdi-lock" :append-inner-icon="show ? 'mei-eye':'mdi-eye-off'" :type="show ? 'text':'password'" @click:append-inner="show = !show"></v-text-field>
                                     </v-col>
                                     <v-col cols="12" md="6">
-                                        <v-text-field label="ยืนยันรหัสผ่าน" v-model="conP" :error-messages="error.conP" variant="outlined" prepend-inner-icon="mdi-lock" :append-inner-icon="show2 ? 'mdi-eye':'mdi-eye-off'" :type="show2 ? 'text':'password'" @click:append-inner="show2 = !show2"></v-text-field>
+                                        <v-text-field label="ยืนยันรหัสผ่าน" v-model="conP" :error-messages="error.conP" variant="outlined" prepend-inner-icon="mdi-lock" :append-inner-icon="show2 ? 'mei-eye':'mdi-eye-off'" :type="show2 ? 'text':'password'" @click:append-inner="show2 = !show2"></v-text-field>
                                     </v-col>
                                     <v-col cols="12" md="6">
                                         <v-select label="ประเภทสมาชิก" v-model="form.role" :error-messages="error.role" variant="outlined" prepend-inner-icon="mdi-account-group" :items="typeR"></v-select>
                                     </v-col>
                                     <v-col cols="12" md="6">
-                                        <v-file-input label="รูปภาพสมาชิก" v-model="pic_user" :error-messages="error.pic_user" variant="outlined" prepend-icon="" prepend-inner-icon="mdi-file" accept=".png , .jpg" hint="รองรับเฉพาะไฟล์ PNG และ JPG เท่านั้น" persistent-hint></v-file-input>
+                                        <v-file-input label="รูปภาพสมาชิก" v-model="pic_user" :error-messages="error.pic_user" variant="outlined" prepend-icon="" prepend-inner-icon="mdi-file" accept=".png , .jpg" hint="รองรับเฉพาะไฟล์ PNG และ JPG" persistent-hint></v-file-input>
                                     </v-col>
                                 </v-row>
                                 <v-row>
                                     <v-col cols="12" md="12">
                                         <center>
-                                            <v-btn class="red-button text-center font-weight-bold text-title-large text-white w-50 py-8" append-icon="mdi-arrow-right" type="submit" rounded="lg">สมัครสมาชิก</v-btn>
+                                            <v-btn class="text-white text-center font-weight-bold text-title-large red-btn w-50 my-4 py-7" rounded="lg" append-icon="mdi-arrow-right" type="submit">สมัครสมาชิก</v-btn>
                                         </center>
                                     </v-col>
                                 </v-row>
                             </v-form>
-                            <center>
-                                <p class="text-center">หากมีบัญชีอยู่แล้ว <nuxt-link to="/" class="text-red-lighten-2">เข้าสู่ระบบ</nuxt-link></p>
-                            </center>
+                            <p class="text-center text-body-large text-medium-emphasis">หากมีบัญชีอยู่แล้ว <nuxt-link to="/" class="text-red-lighten-3">เข้าสู่ระบบ</nuxt-link></p>
                         </v-card-text>
                     </v-card>
                 </v-col>
@@ -62,12 +60,10 @@ import axios from 'axios'
 import { api } from '~/API/base'
 
 definePageMeta({
-
     layout:false
-
 })
-const error = ref<Record<string,string>>({})
 const pic_user = ref<File | null>(null)
+const error = ref<Record<string,string>>({})
 const show = ref(false)
 const show2 = ref(false)
 const typeR = ['ฝ่ายบุคลากร','ผู้รับการประเมินผล','กรรมการประเมิน']
@@ -81,12 +77,14 @@ const form = ref({
     role:''
 })
 const emailRegex = /^[^\s]+@[^\s]+\.[^\s]{2,}$/i
+
 function validate(){
-    error.value = {}
     const f = form.value
+    error.value = {}
 
     if(!f.fname.trim())error.value.fname = 'กรุณากรอกชื่อ'
     if(!f.lname.trim())error.value.lname = 'กรุณากรอกนามสกุล'
+
     if(!f.email.trim())error.value.email = 'กรุณากรอกอีเมล'
     else if(!emailRegex.test(f.email.trim()))error.value.email = 'กรุณากรอกอีเมลให้ถูกต้อง'
 
@@ -94,44 +92,50 @@ function validate(){
     else if(f.username.trim().length < 4)error.value.username = 'ชื่อผู้ใช้ต้องยาวอย่างน้อย 4 ตัวอักษร'
 
     if(!f.password.trim())error.value.password = 'กรุณากรอกรหัสผ่าน'
-    else if(f.password.trim().length < 6)error.value.password = 'รหัสผ่านต้องยาวอย่างน้อย 6 ตัวอักษร'
+    else if(f.password.trim().length < 4)error.value.password = 'รหัสผ่านต้องยาวอย่างน้อย 6 ตัวอักษร'
 
     if(!conP.value.trim())error.value.conP = 'กรุณายืนยันรหัสผ่าน'
-    else if(conP.value.trim().length !== f.password.trim().length)error.value.conP = 'รหัสผ่านไม่ตรงกัน'
+    else if(conP.value.trim() !== f.password.trim())error.value.conP = 'รหัสผ่านไม่ตรงกัน'
 
     if(!f.role.trim())error.value.role = 'กรุณาเลือกประเภทสมาชิก'
 
     return Object.keys(error.value).length === 0
-
+    
 }
 
 const saveMember = async()=>{
-    if(!validate())return 
+    if(!validate())return
     const formdata = new FormData
     formdata.append('form',JSON.stringify(form.value))
     formdata.append('pic_user',pic_user.value!)
     try {
         await axios.post(`${api}/auth/regis`,formdata)
-        alert("ดำเนินการสำเร็จ")
+        alert('ดำเนินการสำเร็จ')
         navigateTo('/',{replace:true})
     } catch (error) {
-        console.error("error save",error)
+        console.error("Error regis",error);
+        
     }
 }
+
+
 </script>
 
 <style scoped>
+
 .bg-style{
-    background: linear-gradient(135deg,white 0%,rgb(255, 239, 239) 25%,rgb(234, 248, 255) 70%);
+    background: linear-gradient(135deg,white 0%,rgb(255, 223, 223) 30%,rgb(226, 242, 255) 80%);
 }
 
-.red-button:hover{
-    background: linear-gradient(135deg,rgb(255, 56, 56),rgb(255, 76, 115));
-    box-shadow: 0px 5px 10px 2px rgba(255, 76, 115, 0.785);
+.red-btn{
+    background: linear-gradient(135deg,rgb(255, 54, 54),rgb(255, 76, 106));
+    transition: all 0.5s ease-in-out linear;
 }
 
-.red-button{
-    background: linear-gradient(135deg,rgb(255, 56, 56),rgb(255, 76, 115));
+.red-btn:hover{
+    transform: translateY(-3px);
+    box-shadow: 0px 3px 10px 3px rgba(255, 129, 129, 0.483);
 }
+
 
 </style>

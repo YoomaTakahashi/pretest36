@@ -42,13 +42,13 @@ router.put('/resetPw/:id_member',verifyToken,requireRole('ฝ่ายบุค�
         const [rows] = await db.query(`select role from tb_member where id_member=?`,[id_member])
         const m = rows[0]
         if(m.role === 'ฝ่ายบุคลากร'){
-            return res.status(403).json({message:"ผู้ใช้ไม่มีสิทธ์การแก้ไขข้อมูล"})
+            return res.status(403).json({message:"ไม่สามารถรีเซ็ตรหัสผ่านได้"})
         }
         let tempPw = ''
-        const chars = 'ABCEFGHIJKLMNOPKRSTUVWXYZ1234567890'
+        const chars = 'ABCDEFGHIJKLMNOPKRSTUVWXYZ1234567890'
         for (let i = 0; i < 8; i++)tempPw += chars[crypto.randomInt(chars.length)]
         const hash = await bc.hash(tempPw,10)
-        await db.query(`update tb_member set statusPw = 'y' , password=? where id_member = ?`,[hash,id_member])
+        await db.query(`update tb_member set password=? , statusPw='y' where id_member=?`,[hash,id_member])
         res.json({tempPw,message:"รีเซ็ตรหัสผ่านสำเร็จ"})
     } catch (error) {
         console.error("error update",error);

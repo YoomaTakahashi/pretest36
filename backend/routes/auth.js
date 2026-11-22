@@ -1,10 +1,10 @@
 const express = require('express')
 const path = require('path')
 const uploadDir = path.join(__dirname,'../uploads/pic_user')
-const jwt = require('jsonwebtoken')
-const JWT_SECRET = process.env.JWT_SECRET
 const bc = require('bcrypt')
 const db = require('../db')
+const jwt = require('jsonwebtoken')
+const JWT_SECRET = process.env.JWT_SECRET
 const {verifyToken} = require('../Middleware/authmiddleware')
 const router = express.Router()
 
@@ -18,8 +18,8 @@ router.post('/regis',async (req,res) => {
             await pic_user.mv(path.join(uploadDir,filename))
         }
         const hash = await bc.hash(form.password,10)
-        const [rows] = await db.query(`insert into tb_member(fname,lname,email,username,password,role,pic_user,statusPw) values(?,?,?,?,?,?,?,'n')`,[form.fname,form.lname,form.email,form.username,hash,form.role,filename])
-        res.json(rows)
+        const [rows] = await db.query(`insert into tb_member(fname,lname,email,username,password,role,pic_user,statusPw) values(?,?,?,?,?,?,?,'n')`,[form.fname,form.lname,form.email,form.username,hash,form.role,pic_user])
+        res.json(rows,{message:"regis Success"})
     } catch (error) {
         console.error("error regis",error);
         res.status(500).json({message:"error regis"})
@@ -37,8 +37,8 @@ router.post('/login',async (req,res) => {
         const token = jwt.sign(
             {id_member:m.id_member,username:m.username,role:m.role},JWT_SECRET,{expiresIn:'24h'}
         )
-        const statusPw = m.role === 'ผู้รับการประเมินผล' && m.statusPw === 'n'
-        res.json({token,role:m.role,statusPw})
+        const changePw = m.role === 'ผู้รับการประเมินผล' && m.statusPw === 'n'
+        res.json({token,role:m.role,changePw}) 
     } catch (error) {
         console.error("error login",error);
         res.status(500).json({message:"error login"})
@@ -48,18 +48,18 @@ router.post('/login',async (req,res) => {
 
 router.put('/changePw',verifyToken,async (req,res) => {
     try {
-        const {newPw,oldPw} = req.body
-        const id_member = req.user.id_member
-        const [rows] = await db.query(`select password from tb_member where id_member`,[id_member])
+        const {oldPw,newPw} = req.body
+        const id_member = req.user?.id_member
+        const [rows] = await db.query(`select password from tb_member where id_member=?`,[id_member])
         const m = rows[0]
         if(!m || !oldPw || !(await bc.compare(oldPw,m.password))){
-            return res.status(400).json({message:"กรอกรหัสผ่านไม่ถูกต้อง"})
+            return res.status(400).json({message:'กรุณากรอกรหัสผ่านเกิมให้ถูกต้อง'})
         }
         if(oldPw.trim() === newPw.trim()){
-            res.status(400).json({message:"รหัสผ่านใหม่ไม่ควรซ้ำกับรหัสเดิม"})
+            return res.status(400).json({message:"ผู้ใช้ควรจะตั้งรหัสผ่านไม่ซ้ำกับรหัสเดิม"})
         }
         const hash = await bc.hash(newPw,10)
-        await db.query(`update tb_member set password = ?,statusPw=? where id_member=?`,[hash,'y',id_member])
+        await db.query(`update tb_member set password=? , statusPw = 'y' where id_member=?`,[hash,id_member])
         res.json({message:"เปลี่ยนรหัสผ่านสำเร็จ"})
     } catch (error) {
         console.error("error change",error);

@@ -103,6 +103,7 @@ const saveMember = async()=>{
         await axios.put(`${eva}/edit_eva/`,form.value,{headers:{Authorization:`Bearer ${token}`}})
         alert("ดำเนินการสำเร็จ")
         fetch()
+        // console.log(form.value)
         window.location.reload()
     } catch (error) {
         console.error("error save",error)

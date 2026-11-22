@@ -1,73 +1,73 @@
 <template>
     <v-app class="bg-style">
         <v-container>
-            <v-row justify="center" align="center">
+            <v-row align="center" justify="center">
                 <v-col cols="12" md="6">
                     <div>
-                        <div class="text-center text-md-start ">
-                            <div class="logo-box md-6 mx-auto mx-md-0">
-                                <div class="logo-ring"></div>
-                                <v-sheet width="150" height="150" rounded="circle" elevation="2" class="logo-float d-flex justify-center align-center">
-                                    <v-img src="/img/logo.png" width="200" height="200"></v-img>
-                                </v-sheet>
-                            </div>
-                            <div class="text-display-small font-weight-bold md-1 mt-3">
-                                <span class="text-blue-grey-darken-4">วิทยาลัยเทคนิค<span class="text-blue-lighten-2">น่าน</span></span>
-                            </div>
-                            <div class="text-title-medium text-medium-emphasis mb-6">NTC Evaluation System - ระบบประเมินบุคลากร</div>
-
-                            <ClientOnly>
-                                <v-chip size="large" variant="elevated" color="white" class="mb-6">
-                                    <v-icon icon="mdi-circle" color="success" size="10" class="me-3 blink"></v-icon>
-                                    <span class="text-title-large font-weight-bold me-3"> {{ time }} </span>
-                                    <span class="text-body-medium text-medium-emphasis"> {{ date }} </span>
-                                </v-chip>
-                            </ClientOnly>
-
-                            <v-card rounded="xl" variant="outlined" color="grey-lighten-2" class="bg-white pa-4">
-                                <div class="text-title-large font-weight-bold text-black mb-3">การเข้าใช้งานระบบ</div>
-                                <v-list density="compact" bg-color="transpent">
-                                    <v-list-item v-for="r in roles" :key="r.title" :title="r.title" :subtitle="r.detail" :prepend-icon="r.icon" class="px-0 text-black text-start"></v-list-item>
-                                </v-list>
-                            </v-card>
+                        <div class="logo-box mb-6 mx-auto mx-md-0">
+                            <div class="logo-ring"></div>
+                            <v-sheet width="150" height="150" elevation="3" rounded="circle" class="d-flex align-center justify-center float-logo">
+                                <v-img width="200" height="200" src="/img/logo.png"></v-img>
+                            </v-sheet>
                         </div>
+                        <div class="text-display-medium font-weight-bold mb-1">
+                            <span class="text-blue-darken-5">วิทยาลัยเทคนิค<span class="text-red-lighten-2">น่าน</span></span>
+                        </div>
+                        <div class="text-title-medium text-medium-emphasis font-weight-bold mb-4">
+                            <h3>
+                                NTC Evaluation System - ระบบประเมินบุคลากร
+                            </h3>
+                        </div>
+
+                        <ClientOnly>
+                            <v-chip size="large" variant="elevated" color="white" class="mb-6">
+                                <v-icon color="success" size="10" class="blink mx-2" icon="mdi-circle"></v-icon>
+                                <h3 class="text-title-large font-weight-bold">{{ time }}</h3>
+                                <h3 class="text-body-medium font-weight-bold text-medium-emphasis mx-2">{{ date }}</h3>
+                            </v-chip>
+                        </ClientOnly>
+
+                        <v-card rounded="xl" variant="outlined" elevation="3" class="pa-4 bg-white d-none d-md-block">
+                            <div class="text-title-large text-black font-weight-bold">การเข้าใช้งานระบบ</div>
+                            <v-list bg-color="transparent">
+                                <v-list-item v-for="r in typeMember" :key="r.title" :title="r.title" :subtitle="r.detail" :prepend-icon="r.icon" class="px-0 text-black"></v-list-item>
+                            </v-list>
+                        </v-card>
                     </div>
                 </v-col>
                 <v-col cols="12" md="5" sm="8" offset-md="1">
-                    <v-card rounded="xl" elevation="12" class="pa-4">
-                            <v-chip variant="tonal" color="info" size="small" prepend-icon="mdi-clock-outline" class="mb-4">{{ greeting }}</v-chip>
-                            <div class="d-flex align-center mb-1">
-                                <v-img class="me-3" src="/img/logo.png" max-width="50" height="50"></v-img>
-                                <h3 class="text-headline-large font-weight-bold">เข้าสู่ระบบ</h3>
-                            </div>
-                            <div class="text-body-medium text-medium-emphasis mb-6">กรุณาลงชื่อเข้าใช้เพื่อเข้าสู่ระบบ</div>
-                            <v-alert rounded="lg" v-if="error" density="compact" variant="tonal" type="error" class="mb-4 shake">{{ error }}</v-alert>
-                            <v-form @submit.prevent="login">
-                                <v-row>
-                                    <v-col cols="12" md="12">
-                                        <v-text-field label="ชื่อผู้ใช้" v-model="username" variant="outlined" prepend-inner-icon="mdi-account-circle"></v-text-field>
-                                    </v-col>
-                                    <v-col cols="12" md="12">
-                                        <v-text-field label="รหัสผ่าน" v-model="password" variant="outlined" prepend-inner-icon="mdi-lock" :append-inner-icon="show ? 'mdi-eye':'mdi-eye-off'" :type="show ? 'text':'password'" @click:append-inner="show = !show"></v-text-field>
-                                    </v-col>
-                                    <v-col cols="12" md="12">
-                                        <v-select label="ประเภทสมาชิก" v-model="role"  variant="outlined" prepend-inner-icon="mdi-account-group" :items="typeR"></v-select>
-                                    </v-col>
-                                    <v-col cols="12" md="12">
-                                        <v-checkbox v-model="remember" label="จดจำฉัน" density="compact" hide-details class="mb-4"></v-checkbox>
-                                    </v-col>
-                                </v-row>
-                                <v-row>
-                                    <v-col cols="12" md="12">
-                                        <center>
-                                            <v-btn class="red-button text-center font-weight-bold text-title-large text-white py-8" rounded="lg" block append-icon="mdi-arrow-right" type="submit">เข้าสู่ระบบ</v-btn>
-                                        </center>
-                                    </v-col>
-                                </v-row>
-                            </v-form>
-                            <center>
-                                <p class="text-center">หากไม่มีบัญชี <nuxt-link to="/regis" class="text-red-lighten-2">สมัครสมาชิก</nuxt-link></p>
-                            </center>
+                    <v-card rounded="xl" elevation="3" class="pa-4">
+
+                        <v-chip size="small" prepend-icon="mdi-clock-outline" color="primary" variant="tonal">{{ greeting }}</v-chip>
+                        <div class="mb-3 d-flex text-title-large align-center">
+                            <v-img src="/img/logo.png" max-width="36" height="36"></v-img>
+                            <h3>เข้าสู่ระบบ</h3>
+                        </div>
+                        <v-alert density="compact" type="error" class="my-3 shake" v-if="error" variant="tonal">{{ error }}</v-alert>
+                        <v-form @submit.prevent="login">
+                            <v-row>
+                                <v-col cols="12" md="12">
+                                    <v-text-field label="ชื่อผู้ใช้" v-model="username"  variant="outlined" prepend-inner-icon="mdi-account-circle"></v-text-field>
+                                </v-col>
+                                <v-col cols="12" md="12">
+                                    <v-text-field label="รหัสผ่าน" v-model="password"  variant="outlined" prepend-inner-icon="mdi-lock" :append-inner-icon="show ? 'mei-eye':'mdi-eye-off'" :type="show ? 'text':'password'" @click:append-inner="show = !show"></v-text-field>
+                                </v-col>
+                                <v-col cols="12" md="12">
+                                    <v-select label="ประเภทสมาชิก" v-model="role"  variant="outlined" prepend-inner-icon="mdi-account-group" :items="typeR"></v-select>
+                                </v-col>
+                                <v-col cols="12" md="12">
+                                    <v-checkbox label="จดจำฉัน" v-model="remember"  variant="outlined" density="compact" hide-details></v-checkbox>
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col cols="12" md="12">
+                                    <center>
+                                        <v-btn class="text-white text-center font-weight-bold text-title-large red-btn w-100 my-4 py-7" rounded="lg" append-icon="mdi-arrow-right" type="submit">เข้าสู่ระบบ</v-btn>
+                                    </center>
+                                </v-col>
+                            </v-row>
+                        </v-form>
+                        <p class="text-center text-body-large text-medium-emphasis">หากไม่มีบัญชี <nuxt-link to="/regis" class="text-red-lighten-3">สมัครสมาชิก</nuxt-link></p>
                     </v-card>
                 </v-col>
             </v-row>
@@ -81,12 +81,10 @@ import auth from '~/API/auth'
 import { api } from '~/API/base'
 
 definePageMeta({
-
     layout:false
-
 })
-const error = ref('')
 const pic_user = ref<File | null>(null)
+const error = ref('')
 const show = ref(false)
 const remember = ref(false)
 const typeR = ['ฝ่ายบุคลากร','ผู้รับการประเมินผล','กรรมการประเมิน']
@@ -94,14 +92,13 @@ const username = ref('')
 const password = ref('')
 const role = ref('')
 
-const roles = ref([
-    {title:'ฝ่ายบุคลากร',detail:'จัดการการประเมินเช่น จัดการผู้รับและกรรมการประเมิน จัดการหัวข้อและตัวชี้วัด',icon:'mdi-account-tie'},
-    {title:'ผู้รับการประเมินผล',detail:'แก้ไขข้อมูลส่วนตัว ประเมินตนเองและรายงานผลการประเมิน',icon:'mdi-account-school'},
-    {title:'กรรมการประเมิน',detail:'ประเมินผลผู้รับการประเมินผล แนบลายเซ็น',icon:'mdi-account-star'},
-])
+const typeMember = [
+    {title:'ฝ่ายบุคลากร',detail:'จัดการการประเมิน เช่น หัวข้อ ตัวชี้วัด สมาชิก และแบบประเมิน',icon:'mdi-account-tie'},
+    {title:'ผู้รับการประเมินผล',detail:'แก้ไขข้อมูลส่วนตัว ประเมินตนเอง แนบหลักฐาน และพิมพ์เอกสาร',icon:'mdi-account-school'},
+    {title:'กรรมการประเมิน',detail:'ประเมินผู้รับการประเมิน และ แนบรายเซ็น',icon:'mdi-account-star'},
+]
 
 let timer:any
-
 const now = ref(new Date())
 
 onMounted(()=>{
@@ -110,22 +107,22 @@ onMounted(()=>{
     const saved = localStorage.getItem('saveUser')
     if(saved){
         username.value = saved
-        remember.value = false
+        remember.value = true
     }
 })
-onUnmounted(() => clearInterval(timer))
 
-const time = computed(()=>now.value.toLocaleTimeString('th-TH'))
-const date = computed(()=>now.value.toLocaleDateString('th-TH',{weekday:'narrow',day:'numeric',month:'narrow',year:'numeric'})) 
+onUnmounted(()=> clearInterval(timer))
+
+const time = computed(()=> now.value.toLocaleTimeString('th-TH'))
+const date = computed(()=> now.value.toLocaleTimeString('th-TH',{weekday:'narrow',day:'numeric',month:'narrow',year:'numeric'}))
 
 const greeting = computed(()=>{
     const h = now.value.getHours()
-    if(h < 12)return'สวัสดีตอนเช้า'
-    if(h < 17)return'สวัสดีตอนบ่าย'
-    return 'สวัสดีตอนเย็น'
+    if(h < 12)return 'สวัสดีตอนเช้า'
+    if(h < 17)return 'สวัสดีตอนบ่าย'
+    if(h < 24)return 'สวัสดีตอนค่ำ'
+    return 'ยินดีต้อนรับ'
 })
-    
-
 
 const login = async()=>{
     try {
@@ -139,85 +136,90 @@ const login = async()=>{
         if(remember.value)localStorage.setItem('saveUser',username.value)
         else localStorage.removeItem('saveUser')
 
-        if(remember.value)localStorage.setItem('statusPw','n')
-        else localStorage.removeItem('statusPw')
-
-
-
-        alert("ดำเนินการสำเร็จ")
-        if(res.data.statusPw)return navigateTo('/Evaluatee/changePw')
-
+        if(res.data.changePw)localStorage.setItem('changePw','n')
+        else localStorage.removeItem('changePw')
+        alert('ดำเนินการสำเร็จ')
+        if (res.data.changePw) return navigateTo('/Evaluatee/changePw')
         const useRole = res.data.role
         if(useRole === 'ฝ่ายบุคลากร')useRouter().push('/Staff')
         if(useRole === 'ผู้รับการประเมินผล')useRouter().push('/Evaluatee')
         if(useRole === 'กรรมการประเมิน')useRouter().push('/Committee')
+        
     } catch (err:any) {
-        console.error("error save",err)
+        console.error("Error login",err);
         error.value = err.response?.data?.message || 'เข้าสู่ระบบไม่สำเร็จ'
+        
     }
 }
+
+
 </script>
 
 <style scoped>
+
 .bg-style{
-    background: linear-gradient(135deg,white 0%,rgb(255, 239, 239) 25%,rgb(234, 248, 255) 70%);
+    background: linear-gradient(135deg,white 0%,rgb(255, 223, 223) 30%,rgb(226, 242, 255) 80%);
 }
 
-.red-button{
-    background: linear-gradient(135deg,rgb(255, 56, 56),rgb(255, 76, 115));
+.red-btn{
+    background: linear-gradient(135deg,rgb(255, 54, 54),rgb(255, 76, 106));
+    transition: all 0.5s ease-in-out linear;
 }
 
-.red-button:hover{
-    background: linear-gradient(135deg,rgb(255, 56, 56),rgb(255, 76, 115));
-    box-shadow: 0px 5px 10px 2px rgba(255, 76, 115, 0.785);
+.red-btn:hover{
+    transform: translateY(-3px);
+    box-shadow: 0px 3px 10px 3px rgba(255, 129, 129, 0.483);
 }
 
 .logo-box{
     position: relative;
-    width: 200px;
-    height: 200px;
-    display: flex;
     justify-content: center;
     align-items: center;
+    display: flex;
+    width: 200px;
+    height: 200px;
 }
 
-.logo-ring{
+.logo-ring {
     position: absolute;
     inset: 0;
-    border: 2px solid transparent;
     border-radius: 50%;
-    border-bottom-color: #f03845;
-    border-top-color: #007fff;
-    animation: spin 3s infinite linear;
+    border: 3px solid transparent;
+    border-top-color: #1e88e5;
+    border-bottom-color: #e53950;
+    animation: spin 4s linear infinite;
 }
 
-.shake{
-    animation: shake 0.4s ease-in-out infinite;
+.logo-float {
+    animation: float 3s ease-in-out infinite;
 }
 
-.blink{
-    animation: blink 1s ease-in-out infinite;
+
+.blink {
+    animation: blink 1s infinite;
 }
 
-.logo-float{
-    animation: float 2s ease-in-out infinite;
+
+
+
+.shake {
+    animation: shake 0.4s ease-out;
 }
 
-@keyframes spin{
-    to {transform: rotate(360deg);}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+@keyframes float {
+    50% { transform: translateY(-8px); }
+}
+@keyframes blink {
+    50% { opacity: 0.2; }
+}
+@keyframes shake {
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
 }
 
-@keyframes shake{
-    50% {transform: translateX(-3px);}
-    50% {transform: translateX(3px);}
-}
 
-@keyframes float{
-    50% {transform: translateY(-6px);}
-    50% {transform: translateY(6px);}
-}
-
-@keyframes blink{
-    100% {opacity: 0.2;}
-}
 </style>
